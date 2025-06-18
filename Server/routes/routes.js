@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const UserController = require('../Controllers/UserController');
+const AuthController = require('../Controllers/authcontroller');
 
 //USERS ROUTERS
 router.get('/users', UserController.GetAll);
@@ -22,8 +23,8 @@ router.post('/users/create', UserController.createUser);
 // router.post('/roles', UserController.createRole);
 // router.put('/roles/:id', UserController.updateRole);
 // router.delete('/roles/:id', UserController.deleteRole);
-// //AUTH ROUTERS
-// router.post('/auth/login', loginMiddleware, UserController.login);
+//AUTH ROUTERS
+router.post('/auth/login', loginValidate, AuthController.login);
 
 
 
