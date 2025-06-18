@@ -1,34 +1,50 @@
 const jwt = require('jsonwebtoken');
-const secretKey = 'tu_clave_secreta';
+const UserRepository = require('../Repositories/UserRepository');
+const bcrypt = require('bcrypt');
+const env = require('dotenv');
+
 
 class AuthController {
   static async login(req, res) {
-    const { username, password } = req.body;
-
-    // Aquí deberías validar el usuario y la contraseña con tu base de datos
-    if (username === 'admin' && password === 'password') {
-      const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
-      return res.status(200).json({ token });
-    } else {
-      return res.status(401).json({ message: 'Credenciales inválidas' });
-    }
-  }
-
-  static async verifyToken(req, res, next) {
-    const token = req.headers['authorization'];
-
-    if (!token) {
-      return res.status(403).json({ message: 'Token no proporcionado' });
-    }
-
+    const { password, email } = req.body;
     try {
-      const decoded = jwt.verify(token, secretKey);
-      req.user = decoded;      
-      next();
+      user = await UserRepository.GetByEmail(email);
+      if (!user) {
+        return res.status(404).json({
+          message: 'User not found',
+          type_of_response: 'ERROR'
+        });
+      }
+      //validate hasedpassword   
+      const isPasswordValid = await bcrypt.compare(password, user.Password);
+      if (!isPasswordValid) {
+        return res.status(401).json({
+          message: 'Invalid password',
+          type_of_response: 'ERROR'
+        });
+      }
+      // Generate JWT token
+      const token = jwt.sign({ id: user.Id, email: user.Email }, process.env.SECRET_KEY, {
+        expiresIn: process.env.JWT_EXPIRATION // Token expires in 1 hour
+      });
+
+      return res.status(200).json({
+        message: 'Login successful',
+        type_of_response: 'SUCCESS',
+        token
+      });
     } catch (error) {
-      return res.status(401).json({ message: 'Token inválido' });
+      return res.status(500).json({
+        message: 'Internal server error',
+        type_of_response: 'ERROR'
+      });
     }
   }
 }
+
+module.exports = AuthController;
+
+
+
 
 module.exports = AuthController;
