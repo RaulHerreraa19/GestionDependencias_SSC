@@ -2,11 +2,14 @@ const express = require('express');
 const router = express.Router();
 const UserController = require('../Controllers/UserController');
 const AuthController = require('../Controllers/authcontroller');
+const LoginValidate = require('../Middlewares/loginValidate');
 
 //USERS ROUTERS
 router.get('/users', UserController.GetAll);
 router.get('/users/:id', UserController.GetById);
 router.post('/users/create', UserController.createUser);
+router.post('/users/update', UserController.updateUser);
+
 //router.put('/users/:id', UserController.updateUser);
 //router.delete('/users/:id', UserController.deleteUser);
 
@@ -24,7 +27,7 @@ router.post('/users/create', UserController.createUser);
 // router.put('/roles/:id', UserController.updateRole);
 // router.delete('/roles/:id', UserController.deleteRole);
 //AUTH ROUTERS
-router.post('/auth/login', loginValidate, AuthController.login);
+router.post('/auth/login', LoginValidate, AuthController.login);
 
 
 
