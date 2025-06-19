@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const UserRepository = require('../Repositories/UserRepository');
 const bcrypt = require('bcrypt');
 const env = require('dotenv');
+env.config();
 
 
 class AuthController {
@@ -17,7 +18,7 @@ class AuthController {
       }
       //validate hasedpassword   
       const isPasswordValid = await bcrypt.compare(password, user.Password);
-      if (!isPasswordValid) {
+      if (!isPasswordValid) { 
         return res.status(401).json({
           message: 'Invalid password',
           type_of_response: 'ERROR'
@@ -25,7 +26,7 @@ class AuthController {
       }
       // Generate JWT token
       const token = jwt.sign({ id: user.Id, email: user.Email }, process.env.SECRET_KEY, {
-        expiresIn: process.env.JWT_EXPIRATION // Token expires in 1 hour
+        expiresIn: process.env.JWT_EXPIRATION 
       });
 
       return res.status(200).json({
@@ -41,10 +42,6 @@ class AuthController {
     }
   }
 }
-
-module.exports = AuthController;
-
-
 
 
 module.exports = AuthController;
