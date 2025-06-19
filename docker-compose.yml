@@ -1,8 +1,8 @@
-version: "3.9"
+# version: "3.9"
 
 services:
   db:
-    image: mysql:8
+    image: mysql:8.0
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456
@@ -12,9 +12,9 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
-  app:
+  backend:
     build:
-      context: .
+      context: ./Server
       dockerfile: Dockerfile
     restart: always
     ports:
@@ -27,8 +27,22 @@ services:
       DB_PASS: 123456
     depends_on:
       - db
+    command: sh -c "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm start" 
     volumes:
-      - .:/app
+      - ./Server:/app
+  
+  frontend:
+    build:
+      context: ./Client
+      dockerfile: Dockerfile
+    image: frontend-app
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./Client:/app:cached
+      - /app/node_modules
 
 volumes:
   db_data:

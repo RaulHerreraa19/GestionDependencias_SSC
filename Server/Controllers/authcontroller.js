@@ -42,7 +42,9 @@ class AuthController {
       });
     } catch (error) {
       return res.status(500).json({
+
         message: 'Error interno del servidor',
+
         type_of_response: 'ERROR'
       });
     }

@@ -8,8 +8,6 @@ const LoginValidate = require('../Middlewares/loginValidate');
 router.get('/users', UserController.GetAll);
 router.get('/users/:id', UserController.GetById);
 router.post('/users/create', UserController.createUser);
-router.post('/users/update', UserController.updateUser);
-router.post('/auth/login', LoginValidate, AuthController.login);
 //router.put('/users/:id', UserController.updateUser);
 //router.delete('/users/:id', UserController.deleteUser);
 
@@ -26,8 +24,8 @@ router.post('/auth/login', LoginValidate, AuthController.login);
 // router.post('/roles', UserController.createRole);
 // router.put('/roles/:id', UserController.updateRole);
 // router.delete('/roles/:id', UserController.deleteRole);
-//AUTH ROUTERS
-
+// //AUTH ROUTERS
+// router.post('/auth/login', loginMiddleware, UserController.login);
 
 
 
