@@ -8,7 +8,7 @@ const LoginValidate = require('../Middlewares/loginValidate');
 router.get('/users', UserController.GetAll);
 router.get('/users/:id', UserController.GetById);
 router.post('/users/create', UserController.createUser);
-router.post('/users/update', UserController.updateUser);
+//router.post('/users/update', UserController.updateUser);
 
 //router.put('/users/:id', UserController.updateUser);
 //router.delete('/users/:id', UserController.deleteUser);
@@ -27,7 +27,7 @@ router.post('/users/update', UserController.updateUser);
 // router.put('/roles/:id', UserController.updateRole);
 // router.delete('/roles/:id', UserController.deleteRole);
 //AUTH ROUTERS
-router.post('/auth/login', LoginValidate, AuthController.login);
+//router.post('/auth/login', LoginValidate, AuthController.login);
 
 
 
