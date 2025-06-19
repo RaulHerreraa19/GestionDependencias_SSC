@@ -27,7 +27,6 @@ services:
       DB_PASS: 123456
     depends_on:
       - db
-    command: sh -c "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm start" 
     volumes:
       - ./Server:/app
   

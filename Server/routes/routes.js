@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const UserController = require('../Controllers/UserController');
 const AuthController = require('../Controllers/authcontroller');
-const LoginValidate = require('../Middlewares/loginValidate');
+const loginMiddleware = require('../Middlewares/VerifyToken');
 
 //USERS ROUTERS
 router.get('/users', UserController.GetAll);
@@ -25,7 +25,7 @@ router.post('/users/create', UserController.createUser);
 // router.put('/roles/:id', UserController.updateRole);
 // router.delete('/roles/:id', UserController.deleteRole);
 // //AUTH ROUTERS
-// router.post('/auth/login', loginMiddleware, UserController.login);
+router.post('/auth/login', AuthController.login);
 
 
 
