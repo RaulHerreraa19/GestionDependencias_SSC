@@ -1,13 +1,22 @@
 
-exports.RoleValidate = (roles) => {
-    return (req, res, next) => {
-        const userRole = req.user.role; // Assuming the user's role is stored in req.user.role
-        if (!roles.includes(userRole)) {
-            return res.status(403).json({
-                message: 'Access denied. You do not have the required role.',
-                type_of_response: 'ERROR'
-            });
-        }
-        next();
-    };
+exports.loginValidate = (req, res, next) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({
+            message: 'El correo y la contraseña son obligatorios',
+            type_of_response: 'ERROR'
+        });
+    }
+
+    // Simple email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({
+            message: 'El correo electrónico no es válido',
+            type_of_response: 'ERROR'
+        });
+    }
+
+    next();
 }
