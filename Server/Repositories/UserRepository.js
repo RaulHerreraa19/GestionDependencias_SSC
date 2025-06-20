@@ -41,6 +41,7 @@ class UserRepository {
 
     static async createUser(user) {
         let response = new Response.Response();
+        let TypeOfResponse = Response.TypeOfResponse;
         try {
             // Aquí podrías agregar validaciones adicionales al usuario si es necesario
             if (!user.Name || !user.LastName || !user.Email || !user.Password || !user.Phone || !user.RoleId) {
@@ -96,7 +97,8 @@ class UserRepository {
     static async GetByEmail(email) {
         let response = new Response.Response();
         try {
-            const user = await UserModel.findByEmail({ where: { Email: email } });
+            const user = await UserModel.findByEmail(email);
+            //console.log("dsps de metodo getbyemailrepository", user);
             if (user) {
                 response.data = user;
                 response.message = "Usuario encontrado";

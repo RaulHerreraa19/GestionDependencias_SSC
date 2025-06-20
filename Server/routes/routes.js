@@ -7,7 +7,6 @@ const loginMiddleware = require('../Middlewares/VerifyToken');
 //USERS ROUTERS
 router.get('/users', UserController.GetAll);
 router.get('/users/:id', UserController.GetById);
-router.post('/users/create', UserController.createUser);
 //router.put('/users/:id', UserController.updateUser);
 //router.delete('/users/:id', UserController.deleteUser);
 
@@ -26,6 +25,7 @@ router.post('/users/create', UserController.createUser);
 // router.delete('/roles/:id', UserController.deleteRole);
 // //AUTH ROUTERS
 router.post('/auth/login', AuthController.login);
+router.post('/auth/register', AuthController.register);
 
 
 

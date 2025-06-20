@@ -71,7 +71,9 @@ class UsersModel {
             throw new Error('Modelo no inicializado. Llama primero a UsersModel.initModel()');
         }
 
-        return await UsersModel.model.findOne({ where: { Email: email } });
+        return await UsersModel.model.findOne({
+            where: { Email: email }
+        });
     }     
 }
 
