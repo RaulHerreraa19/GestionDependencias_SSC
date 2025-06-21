@@ -6,11 +6,11 @@ const loginMiddleware = require('../Middlewares/VerifyToken');
 
 //USERS ROUTERS
 router.get('/users', UserController.GetAll);
-router.get('/users/:id', UserController.GetById);
+router.get('/users/:id', UserController.GetById);   
 //router.put('/users/:id', UserController.updateUser);
 //router.delete('/users/:id', UserController.deleteUser);
 
-// //DEPENDENCIES ROUTERS
+//DEPENDENCIES ROUTERS
 // router.get('/dependencies', UserController.GetAllDependencies);
 // router.get('/dependencies/:id', UserController.GetDependencyById);
 // router.post('/dependencies', UserController.createDependency);

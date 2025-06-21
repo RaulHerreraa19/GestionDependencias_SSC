@@ -9,21 +9,16 @@ env.config();
 class AuthController {
   static async login(req, res) {
     const { Password, Email } = req.body;
-    console.log("Email", Email);
-    console.log("Password", Password);
     try {
       const response = await UserRepository.GetByEmail(Email);
-      console.log("usercontroller", response);
       
-      // if(response.type_of_response === 'ERROR') {
-      //   return res.status(404).json({
-      //     message: 'Usuario no encontrado',
-      //     type_of_response: 'ERROR'
-      //   });
-      // }      
-      let user = response.data;      
-      // Check if the user exists
-      // Check if the password matches
+      if(response.data === null || response.data === undefined) {
+          return res.status(404).json({
+            message: 'Usuario no encontrado',
+            type_of_response: 'ERROR'
+          });
+      }
+      let user = response.data;
       const isPasswordValid = await bcrypt.compare(Password, user.Password);
       if (!isPasswordValid) {
         return res.status(401).json({
@@ -36,10 +31,8 @@ class AuthController {
         process.env.JWT_SECRET,
         { expiresIn: '1h' } 
       );
-             
 
-      console.log("token", token);
-       user.token = token; 
+      user.token = token;
 
       // res.cookie('token', token, {
       //   httpOnly: true, 
@@ -52,7 +45,7 @@ class AuthController {
         type_of_response: 'SUCCESS',
         token: token,
         user: user
-      });
+      });      
     } catch (error) {
       return res.status(500).json({
 
