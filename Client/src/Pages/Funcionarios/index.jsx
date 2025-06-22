@@ -54,7 +54,7 @@ export default function Funcionarios() {
               <li key={departamento.param}>
                 <button
                   onClick={() => getFuncionarios(departamento.param)}
-                  className="no-underline text-[#52752f] bg-transparent border-none cursor-pointer"
+                  className="inline-block no-underline text-[#52752f] bg-transparent border border-transparent rounded px-3 py-2.5 cursor-pointer hover:text-[#669933] hover:border-gray-300"
                 >{departamento.nombre}</button>
               </li>
             ))}
