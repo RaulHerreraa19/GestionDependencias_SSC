@@ -57,6 +57,14 @@ class UsersModel {
     
         return await UsersModel.model.findByPk(id);
     }    
+
+    static async create(user) {
+        if (!UsersModel.model) {
+            throw new Error('Modelo no inicializado. Llama primero a UsersModel.initModel()');
+        }
+
+        return await UsersModel.model.create(user);
+    }
 }
 
 module.exports = UsersModel;
