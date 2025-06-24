@@ -17,6 +17,9 @@
     "sequelize": "^6.37.7",
     "tedious": "^18.6.1"
   },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.1"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
