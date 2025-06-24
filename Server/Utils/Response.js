@@ -8,7 +8,7 @@ const TypeOfResponse = Object.freeze({
 
 // Clase Response
 class Response {
-    constructor(type_of_response = TypeOfResponse.INFO, data = {}, message = '') {
+    constructor(type_of_response = TypeOfResponse.SUCCESS, data = {}, message = '') {
         this.type_of_response = type_of_response;
         this.data = data;
         this.message = message;

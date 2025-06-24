@@ -46,30 +46,7 @@ class UserController{
                 type_of_response: TypeOfResponse.ERROR
             });
         }
-    }
-    
-    static async createUser(req, res) {
-        const user = req.body;
-        try {
-            const response = await UserRepository.createUser(user);
-    
-            if (response.type_of_response === TypeOfResponse.SUCCESS) {
-                return res.status(201).json(response);
-            } else {
-                return res.status(400).json({
-                    message: response.message,
-                    type_of_response: TypeOfResponse.ERROR
-                });
-            }
-    
-        } catch (error) {
-            console.error(error.message);
-            return res.status(500).json({
-                message: 'Error en la conexión al servidor',
-                type_of_response: TypeOfResponse.ERROR
-            });
-        }
-    }    
+    }            
 }
 
 
