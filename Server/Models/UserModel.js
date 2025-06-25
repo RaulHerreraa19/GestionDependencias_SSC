@@ -62,9 +62,22 @@ class UsersModel {
         if (!UsersModel.model) {
             throw new Error('Modelo no inicializado. Llama primero a UsersModel.initModel()');
         }
-
-        return await UsersModel.model.create(user);
+        try{
+          return await UsersModel.model.create(user);
+        } catch (error) {
+          throw new Error(`Error al crear usuario: ${error}`);
+        }
     }
+
+    static async findByEmail(email) {
+        if (!UsersModel.model) {
+            throw new Error('Modelo no inicializado. Llama primero a UsersModel.initModel()');
+        }
+
+        return await UsersModel.model.findOne({
+            where: { Email: email }
+        });
+    }     
 }
 
 module.exports = UsersModel;

@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider, } from "react-router";
+import ProtectedRoute from "./components/auth/protectRoute";
 import Inicio from "./Inicio/index"
 import Layout from "./Pages/layout";
 import Default from "./Pages/default";
@@ -12,7 +13,11 @@ import IndexRegister from "./Pages/Auth/register/index";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Inicio />,
+    element: (
+      <ProtectedRoute>
+        <Inicio />,
+      </ProtectedRoute>
+    )
   },
   {
     path: "/auth",
@@ -34,7 +39,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Layout />,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
