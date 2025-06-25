@@ -1,21 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { ROUTES } from "../../../routes";
 import { useLogin,validarFormulario } from "@/api";
+import { useAuth } from "../../../context/authContext";
 import Swal from "sweetalert2";
 
 export default function login(){
+  const { isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
   const [formData, setData] = useState({
     correo: '',
     contraseña: '',
   });
 
+  useEffect(() => {
+    if(isAuthenticated){
+      navigate(ROUTES.INICIO);
+    }
+  }, [isAuthenticated]);
+
   async function handleLogin(data){
     const response = await useLogin(data);
-
-    !response.valido ? Swal.fire({icon: "error", title:"Oops...", text:response.mensaje})
-                     : navigate(ROUTES.INICIO);
+    response.valido ? login(response.token) 
+                    : Swal.fire({icon: "error", title:"Oops...", text:response.mensaje});
+    
   }
 
   return(
