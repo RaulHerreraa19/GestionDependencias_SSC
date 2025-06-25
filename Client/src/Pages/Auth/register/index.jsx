@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { ROUTES } from "../../../routes";
 import { useRegister, validarFormulario } from "@/api";
 import Swal from "sweetalert2";
@@ -11,14 +11,23 @@ import Swal from "sweetalert2";
 // ]
 
 export default function register(){
+  const navigate = useNavigate();
   const [formData, setData] = useState({
     nombre: '',
     apellido: '',
+    correo: '',
     telefono: '',
     contraseña: '',
     contraseña2: '',
-    rol: 2,
+    roleId: 2,
   });
+
+  async function handleRegister(data) {
+    const res = await useRegister(data);
+
+    !res.valido ? Swal.fire({icon: "error", title:"Oops...", text:res.mensaje}) 
+                :  navigate(ROUTES.AUTH_LOGIN);
+  };
 
   return(
     <>
@@ -39,8 +48,8 @@ export default function register(){
                 e.preventDefault(); 
                 let resultado = validarFormulario(formData);
                 if(!resultado.valido){Swal.fire({icon: "error", title:"Oops...", text:resultado.mensaje}); return};
-                useRegister(formData)} 
-              } 
+                handleRegister(formData);
+              }} 
           className="col-start-2 col-span-1">
 
           <div className="mb-4">
@@ -51,6 +60,11 @@ export default function register(){
           <div className="mb-4">
             <label htmlFor="apellido" className="inline-block mb-2">Apellido</label> <br />
             <input type="text" name="apellido" id="apellido" value={formData.apellido} onChange={(e) => setData({...formData, apellido:e.target.value})} className="block w-full py-[0.375rem] px-[0.75rem] text-[#55595c] border border-gray-300 rounded"/>
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="correo" className="inline-block mb-2">Correo</label> <br />
+            <input type="email" name="correo" id="correo" value={formData.correo} onChange={(e) => setData({...formData, correo:e.target.value})} className="block w-full py-[0.375rem] px-[0.75rem] text-[#55595c] border border-gray-300 rounded"/>
           </div>
 
           <div className="mb-4">
