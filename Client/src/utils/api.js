@@ -26,11 +26,11 @@ export async function useLogin(data){
 
     const { token, user } = response.data;
 
-    if(token){
-      localStorage.setItem('token', token);
-    }
+    // if(token){
+    //   localStorage.setItem('token', token);
+    // }
 
-    return {valido: true, mensaje: 'Exito al Iniciar Sesion', user: user};
+    return {valido: true, mensaje: 'Exito al Iniciar Sesion', user: user, token: token};
   } catch (error) {
     // console.error('Error en el Login : ', error);
     return {valido: false, mensaje: error.response.data.message};
@@ -41,9 +41,9 @@ export async function useRegister(data){
   try {
     const response = await apiClient.post('/auth/register', data);
 
-    if(!response.valido){
-      return {valido: false, mensaje: response.mensaje}
-    }
+    // if(!response.valido){
+    //   return {valido: false, mensaje: response.mensaje}
+    // }
 
     return {valido: true, mensaje: 'Exito al crear usuario'};
   } catch (error) {
