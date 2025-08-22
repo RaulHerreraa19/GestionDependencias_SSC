@@ -1,10 +1,3 @@
-// Definición del Enum TypeOfResponse
-const TypeOfResponse = Object.freeze({
-    SUCCESS: 'success',
-    ERROR: 'error',
-    WARNING: 'warning',
-    INFO: 'info',
-});
 
 // Clase Response
 class Response {
