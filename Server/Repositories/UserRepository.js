@@ -6,7 +6,7 @@ class UserRepository {
     static async GetAll() {    
         let response = new Response.Response();    
         try {
-            const users = await UserModel.getAll();            
+            const users = await UserModel.findAll();            
             response.data = users;
             response.message = "Usuarios obtenidos correctamente";
             response.type_of_response = TypeOfResponse.SUCCESS;
