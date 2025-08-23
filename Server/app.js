@@ -3,12 +3,11 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 const routes = require('./routes/routes');
-const UserModel = require('./Models/UserModel');
+const UserModel = require('./Models/user');
 //const authRoutes = require('./Routes/authroutes');
 
 app.use(cors());
 app.use(express.json());
-UserModel.initModel(); // Initialize the UserModel
 
 // Importing routes
 

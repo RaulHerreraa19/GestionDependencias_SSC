@@ -6,3 +6,6 @@ const TypeOfResponse = Object.freeze({
     INFO: 'info',
     EXCEPTION: 'exception'
 });
+
+
+export default TypeOfResponse;

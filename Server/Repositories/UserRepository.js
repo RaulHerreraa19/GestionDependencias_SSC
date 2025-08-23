@@ -1,16 +1,15 @@
-const UserModel = require('../Models/UserModel');
+const UserModel = require('../Models/user');
 const Response = require('../Utils/Response');
 const TypeOfResponse = require('../Utils/Response');
 const bcrypt = require('bcryptjs'); 
 class UserRepository {
     static async GetAll() {    
-        let response = new Response.Response();    
+       let response = new Response.Response();
         try {
-            const users = await UserModel.findAll();            
+            const users = await UserModel.findAll();
             response.data = users;
             response.message = "Usuarios obtenidos correctamente";
             response.type_of_response = TypeOfResponse.SUCCESS;
-            console.log("dsps de metodo getallrepository", response);
         } catch (error) {
             console.error("Error al obtener los usuarios:", error);
             response.type_of_response = TypeOfResponse.ERROR;

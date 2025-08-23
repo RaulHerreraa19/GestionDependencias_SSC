@@ -1,3 +1,4 @@
+
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 
@@ -15,6 +16,19 @@ module.exports = {
       },
       apellido: {
         type: Sequelize.STRING(100),
+        allowNull: false
+      },
+      email: {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+        unique: true
+      },
+      password: {
+        type: Sequelize.STRING(100),
+        allowNull: false
+      },
+      telefono: {
+        type: Sequelize.STRING(15),
         allowNull: false
       },
       roleId: {

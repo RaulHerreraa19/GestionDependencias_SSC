@@ -18,4 +18,4 @@ class Response {
 }
 
 // Exportar la clase y el enum si lo necesitas en otros módulos
-module.exports = { Response, TypeOfResponse };
+module.exports = { Response };

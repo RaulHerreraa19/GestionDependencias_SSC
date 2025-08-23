@@ -23,39 +23,5 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'User',
   });
 
-  User.findAll({
-    include: [{
-      model: sequelize.models.Role,
-      as: 'role'
-    }]
-  }).then(users => {
-    console.log(users);
-  }).catch(err => {
-    console.error('Error fetching users:', err);
-  });
-
-  User.findByPk(1, {
-    include: [{
-      model: sequelize.models.Role,
-      as: 'role'
-    }]
-  }).then(user => {
-    console.log(user);
-  }).catch(err => {
-    console.error('Error fetching user by ID:', err);
-  });
-
-  User.create(user,{
-    nombre: user.name,
-    apellido: user.lastName,
-    roleId: user.roleId
-  }).then(newUser => {
-    console.log('User created:', newUser);
-  }
-  ).catch(err => {
-    console.error('Error creating user:', err);
-
-  });
+  return User;
 }
-return User;
-

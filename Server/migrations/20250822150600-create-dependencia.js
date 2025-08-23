@@ -36,7 +36,7 @@ module.exports = {
       tipodependenciaId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'TipoDependencias',
+          model: 'TipoDependencia',
           key: 'id'
         },
         onUpdate: 'CASCADE',
