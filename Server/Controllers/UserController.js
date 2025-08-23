@@ -1,5 +1,4 @@
 const UserRepository = require('../Repositories/UserRepository');
-const Response = require('../Utils/Response');
 const TypeOfResponse = require('../Utils/Response');
 
 

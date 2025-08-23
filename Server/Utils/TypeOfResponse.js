@@ -7,5 +7,4 @@ const TypeOfResponse = Object.freeze({
     EXCEPTION: 'exception'
 });
 
-
-export default TypeOfResponse;
+module.exports = { TypeOfResponse };

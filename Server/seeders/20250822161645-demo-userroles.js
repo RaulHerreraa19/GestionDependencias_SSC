@@ -6,17 +6,10 @@ module.exports = {
 
     await queryInterface.bulkInsert('UserRoles', [{      
       id: 1,
-      descripcion: 'Admin'
+      descripcion: 'Admin',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }], {});
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
   },
 
   async down (queryInterface, Sequelize) {
