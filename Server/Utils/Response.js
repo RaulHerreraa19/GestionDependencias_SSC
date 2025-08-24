@@ -1,14 +1,7 @@
-// Definición del Enum TypeOfResponse
-const TypeOfResponse = Object.freeze({
-    SUCCESS: 'success',
-    ERROR: 'error',
-    WARNING: 'warning',
-    INFO: 'info',
-});
-
+const TypeOfResponse = require('./TypeOfResponse');
 // Clase Response
 class Response {
-    constructor(type_of_response = TypeOfResponse.INFO, data = {}, message = '') {
+    constructor(type_of_response = TypeOfResponse.SUCCESS, data = {}, message = '') {
         this.type_of_response = type_of_response;
         this.data = data;
         this.message = message;
@@ -25,4 +18,4 @@ class Response {
 }
 
 // Exportar la clase y el enum si lo necesitas en otros módulos
-module.exports = { Response, TypeOfResponse };
+module.exports = { Response};

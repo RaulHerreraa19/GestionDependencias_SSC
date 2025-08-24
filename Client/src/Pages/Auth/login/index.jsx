@@ -1,14 +1,30 @@
-import { useState } from "react";
-import { Link } from "react-router";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { ROUTES } from "../../../routes";
 import { useLogin,validarFormulario } from "@/api";
+import { useAuth } from "../../../context/authContext";
 import Swal from "sweetalert2";
 
 export default function login(){
+  const { isAuthenticated, login } = useAuth();
+  const navigate = useNavigate();
   const [formData, setData] = useState({
     correo: '',
     contraseña: '',
   });
+
+  useEffect(() => {
+    if(isAuthenticated){
+      navigate(ROUTES.INICIO);
+    }
+  }, [isAuthenticated]);
+
+  async function handleLogin(data){
+    const response = await useLogin(data);
+    response.valido ? login(response.token) 
+                    : Swal.fire({icon: "error", title:"Oops...", text:response.mensaje});
+    
+  }
 
   return(
     <>
@@ -28,8 +44,8 @@ export default function login(){
               e.preventDefault(); 
               const resultado = validarFormulario(formData);
               if(!resultado.valido){Swal.fire({icon:"error", title: "Oops...", text: resultado.mensaje}); return}
-              useLogin(formData);
-              }} 
+              handleLogin(formData);
+              }}
             className="col-start-2 col-span-1">
           <div className="mb-4">
             <label htmlFor="correo" className="inline-block mb-2">Correo</label> <br />
