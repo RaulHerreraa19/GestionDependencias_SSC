@@ -85,3 +85,14 @@ export async function getDepartamentos(nombre){
     throw error;
   }
 }
+
+export async function getFuncinarios(){
+  try{
+    const response = await apiClient.get('/funcionarios');
+
+    return response.data;
+  } catch (error) {
+    console.error('Eror getDepartamentos', error);
+    throw error;
+  }
+}

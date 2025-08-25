@@ -13,8 +13,8 @@ export default function TablaCargos({data}) {
             <tbody>
                 {data.map((funcionario, index) => (
                   <tr key={index} className="odd:bg-[#D9D9D9] even:bg-white">
-                    <td className="p-[10px] border border-black">{funcionario.Nombre}</td>
-                    <td className="p-[10px] border border-black">{funcionario.Cargo}</td>
+                    <td className="p-[10px] border border-black">{funcionario.nombre}</td>
+                    <td className="p-[10px] border border-black">{funcionario.cargo}</td>
                   </tr>
                 ))}
             </tbody>

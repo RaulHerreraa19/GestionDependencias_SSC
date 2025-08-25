@@ -9,14 +9,14 @@ import IndexEstructura from "./Pages/EstructuraOrg/index";
 import IndexUtilerias from "./Pages/Utilerias/index";
 import IndexLogin from "./Pages/Auth/login/index";
 import IndexRegister from "./Pages/Auth/register/index";
-
+import IndexCatalogo from "./Pages/Catalogo/index"
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute>
-        <Inicio />,
-      </ProtectedRoute>
+      // <ProtectedRoute>
+        <Inicio />
+      // </ProtectedRoute>
     )
   },
   {
@@ -33,21 +33,25 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <IndexRegister />,
+        element:(
+          <ProtectedRoute>
+            <IndexRegister />
+          </ProtectedRoute>
+        )
       },
     ]
   },
   {
     path: "/dashboard",
     element: (
-      <ProtectedRoute>
+      // <ProtectedRoute>
         <Layout />
-      </ProtectedRoute>
+      // </ProtectedRoute>
     ),
     children: [
       {
         index: true,
-        element: <Default />,
+        element: <IndexFuncionarios />,
       },
       {
         path: "funcionarios",
@@ -60,6 +64,14 @@ const router = createBrowserRouter([
       {
         path: "utilerias",
         element: <IndexUtilerias />,
+      },
+      {
+        path:"catalogo",
+        element:(
+          <ProtectedRoute>
+            <IndexCatalogo />
+          </ProtectedRoute>
+        )
       }
     ]
   },
