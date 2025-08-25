@@ -1,4 +1,4 @@
-const TypeOfResponse = require('../Utils/Response');
+const Response = require('../Utils/Response');
 const DelegationsRepository = require('../Repositories/DelegationsRepository');
 
 class DelegationsController{

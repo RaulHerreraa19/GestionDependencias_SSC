@@ -1,7 +1,6 @@
 const Response = require('../Utils/Response');
 const db = require('../Models');
 const Delegacion = db.Delegacion;
-const bcrypt = require('bcryptjs'); 
 
 
 class DelegationsRepository {
@@ -20,7 +19,7 @@ class DelegationsRepository {
             response.message = "Error al obtener las delegaciones";
         }
         return response;
-    }
+    }    
     
     static async GetById(id) {
         let response = new Response.Response();
@@ -42,6 +41,7 @@ class DelegationsRepository {
         }
         return response;
     }
+
     static async CreateDelegation(nombre, custom_id, fun_id) {
         let response = new Response.Response();
         let TypeOfResponse = Response.TypeOfResponse;
@@ -72,6 +72,7 @@ class DelegationsRepository {
         }
         return response;
     }
+    
     static async updateDelegation(id, nombre, custom_id, fun_delegacionId) {
         let response = new Response.Response();
         let TypeOfResponse = Response.TypeOfResponse;
@@ -116,9 +117,7 @@ class DelegationsRepository {
                 response.message = "Delegación no encontrada";
                 return response;
             }
-
             await delegation.destroy();
-
             response.message = "Delegación eliminada correctamente";
             response.type_of_response = TypeOfResponse.SUCCESS;
         } catch (error) {

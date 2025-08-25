@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FuncionDelegacion',
+    tableName: 'FuncionDelegacions',
   });
   return FuncionDelegacion;
 };

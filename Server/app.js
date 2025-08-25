@@ -11,15 +11,14 @@ app.use(express.json());
 // Importing routes
 
 app.use('/api', routes);
-app.get('/', (req, res) => {
-    res.send('Welcome to the API');
-});
+    app.get('/', (req, res) => {
+        res.send('Welcome to the API');
+    });
 
-app.use((req, res, next) => {
-    res.status(404).json({ message: 'Route not found' });
-});
+    app.use((req, res, next) => {
+        res.status(404).json({ message: 'Route not found' });
+    });
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-}
-);
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    });
