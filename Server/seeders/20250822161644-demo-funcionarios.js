@@ -31,6 +31,7 @@ module.exports = {
     //   }
     await queryInterface.bulkInsert('Funcionarios', [
       {
+        id: 1,
         nombre: 'Funcionario 1',
         correo: 'correo1@ejemplo.com',
         telefono: '123456789',
@@ -39,6 +40,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 2,
         nombre: 'Funcionario 2',
         correo: 'correo2@ejemplo.com',
         telefono: '987654321',

@@ -8,12 +8,12 @@ module.exports = {
       {
         nombre: 'Delegación 1',        
         custom_id: 'DEL-001',
-        fun_delegacionId: 9,
+        fun_delegacionId: 1,
       },
       {
         nombre: 'Delegación 2',
         custom_id: 'DEL-002',
-        fun_delegacionId: 10,
+        fun_delegacionId: 2,
       }
     ]);
 

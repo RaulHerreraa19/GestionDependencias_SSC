@@ -54,6 +54,7 @@ class AuthController {
     } catch (error) {
       return res.status(500).json({
         message: 'Por Favor revisa bien los datos',
+        error: error,
         type_of_response: 'ERROR'
       });
     }
