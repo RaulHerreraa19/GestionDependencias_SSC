@@ -22,7 +22,8 @@ router.put('/delegations/:id', DelegationsController.UpdateDelegation);
 router.delete('/delegations/:id', DelegationsController.DeleteDelegation);
 
 
-//DEPENDENCIES ROUTERS
+
+//DEPENDENCIAS ROUTERS
 // router.get('/dependencies', UserController.GetAllDependencies);
 // router.get('/dependencies/:id', UserController.GetDependencyById);
 // router.post('/dependencies', UserController.createDependency);

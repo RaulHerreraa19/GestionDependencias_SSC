@@ -31,14 +31,13 @@ class DelegationsController{
 
     static async CreateDelegation(req, res) {
         try {
-            const { nombre, custom_id, fun_delegacionId } = req.body;
-            const id = req.params.id;
+            const { nombre, custom_id, fun_delegacionId } = req.body;            
             if (!nombre || !custom_id || !fun_delegacionId) {
                 return res.status(400).json({
                     message: 'Faltan datos obligatorios: nombre, custom_id y fun_delegacionId',
                 });
             }
-            const response = await DelegationsRepository.CreateDelegation(id, nombre, custom_id, fun_delegacionId);
+            const response = await DelegationsRepository.CreateDelegation(nombre, custom_id, fun_delegacionId);
             console.log("Delegación creada controller:", response);
             return res.status(201).json(response);
         } catch (error) {
@@ -67,7 +66,7 @@ class DelegationsController{
     static async DeleteDelegation(req, res) {
         try {
             const id = req.params.id;
-            const response = await DelegationsRepository.DeleteDelegation(id);
+            const response = await DelegationsRepository.deleteDelegation(id);
             console.log("Delegación eliminada controller:", response);
             return res.status(200).json(response);
         } catch (error) {

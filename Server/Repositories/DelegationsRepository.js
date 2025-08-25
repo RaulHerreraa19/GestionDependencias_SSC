@@ -42,19 +42,18 @@ class DelegationsRepository {
         }
         return response;
     }
-    static async CreateDelegation(id, nombre, custom_id, fun_id) {
+    static async CreateDelegation(nombre, custom_id, fun_id) {
         let response = new Response.Response();
         let TypeOfResponse = Response.TypeOfResponse;
         try {
             // Verificar si la delegación ya está registrada
-            const existingDelegation = await Delegacion.findOne({ where: { id:id } });
+            const existingDelegation = await Delegacion.findOne({ where: { nombre: nombre } });
             if (existingDelegation) {
                 response.type_of_response = TypeOfResponse.ERROR;
                 response.message = "La delegación ya está registrada";
                 return response;
             }
-
-            const newDelegation = await Delegacion.create({                
+            const newDelegation = await Delegacion.create({
                 nombre,
                 custom_id,
                 createdAt: new Date(),
@@ -73,7 +72,7 @@ class DelegationsRepository {
         }
         return response;
     }
-    static async updateDelegation(iud, nombre, custom_id, fun_delegacionId) {
+    static async updateDelegation(id, nombre, custom_id, fun_delegacionId) {
         let response = new Response.Response();
         let TypeOfResponse = Response.TypeOfResponse;
         try {
