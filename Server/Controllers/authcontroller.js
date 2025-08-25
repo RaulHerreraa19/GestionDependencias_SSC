@@ -12,21 +12,23 @@ class AuthController {
     const { correo, contraseña } = req.body;
 
     try {
-      const response = await UserRepository.GetByEmail(correo);
+      const ress = await UserRepository.GetByEmail(correo);
 
-      if(response.data === null || response.data === undefined){
+      let response = ress.data.dataValues;
+
+      if(response === null || response === undefined){
         return res.status(404).json({
           message: 'Usuario no Encontrado',
           type_of_response: 'ERROR'
         })
       };
 
-      const passCompare = response.data.Password;
+      const passCompare = response.password;
       
       const user = {
-        id: response.data.Id,
-        email: response.data.Email,
-        roleId: response.data.RoleId,
+        id: response.id,
+        email: response.email,
+        roleId: response.roleId,
       };
 
       const isPasswordValid = await bcrypt.compare(contraseña, passCompare);
@@ -54,6 +56,7 @@ class AuthController {
     } catch (error) {
       return res.status(500).json({
         message: 'Por Favor revisa bien los datos',
+        error: error,
         type_of_response: 'ERROR'
       });
     }

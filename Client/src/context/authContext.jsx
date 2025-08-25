@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [roleId, setRoleId] = useState(() => localStorage.getItem('roleId'));
   const [token, setToken] = useState(() => localStorage.getItem('token'));
   const [isAuthenticated, setAuthenticated] = useState(!!token);
 
@@ -14,13 +15,20 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem('token');
       setAuthenticated(false);
     }
-  }, [token]);
+    if(roleId){
+      localStorage.setItem('roleId', roleId);
+    } else {
+      localStorage.removeItem('roleId');
+    }
+  }, [token, roleId]);
 
-  const login = (jwt) => {
+  const login = (jwt,roleId) => {
+    setRoleId(roleId);
     setToken(jwt);
   };
 
   const logout = () =>{
+    setRoleId(null);
     setToken(null);
   };
 
