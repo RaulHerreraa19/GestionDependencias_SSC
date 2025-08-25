@@ -25,7 +25,7 @@ module.exports = {
         onDelete: 'SET NULL'
       },
       createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE
+      updatedAt: Sequelize.DATE,      
     });
   },
   down: async (queryInterface) => {

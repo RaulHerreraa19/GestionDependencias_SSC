@@ -2,13 +2,25 @@ const express = require('express');
 const router = express.Router();
 const UserController = require('../Controllers/UserController');
 const AuthController = require('../Controllers/authcontroller');
+const DelegationsController = require('../Controllers/DelegationsController');
 const loginMiddleware = require('../Middlewares/VerifyToken');
 
 //USERS ROUTERS
 router.get('/users', UserController.GetAll);
 router.get('/users/:id', UserController.GetById);   
-//router.put('/users/:id', UserController.updateUser);
-//router.delete('/users/:id', UserController.deleteUser);
+router.post('/users/Create', UserController.CreateUser);
+router.put('/users/:id', UserController.updateUser);
+router.delete('/users/:id', UserController.deleteUser);
+
+
+
+//DELEGATIONS ROUTERS
+router.get('/delegations', DelegationsController.GetAll);
+router.get('/delegations/:id', DelegationsController.GetById);
+router.post('/delegations', DelegationsController.CreateDelegation);
+router.put('/delegations/:id', DelegationsController.UpdateDelegation);
+router.delete('/delegations/:id', DelegationsController.DeleteDelegation);
+
 
 //DEPENDENCIES ROUTERS
 // router.get('/dependencies', UserController.GetAllDependencies);

@@ -10,11 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Delegacion.associate = function(models) {
-        Delegacion.belongsTo(models.FuncionDelegacion, { foreignKey: 'fun_delegacionId' });
-        Delegacion.hasMany(models.Dependencia, { foreignKey: 'delegacion_id' });
-      };
-      
+      Delegacion.belongsTo(models.FuncionDelegacion, { foreignKey: 'fun_delegacionId' });
+      Delegacion.hasMany(models.Dependencia, { foreignKey: 'delegacion_id' });
     }
   }
 
@@ -26,8 +23,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Delegacion',
+    tableName: 'Delegaciones',
+    freezeTableName: true,
+  timestamps: true        
   });
 
   
   return Delegacion;
 };
+

@@ -1,12 +1,14 @@
-const UserModel = require('../Models/user');
 const Response = require('../Utils/Response');
-const TypeOfResponse = require('../Utils/Response');
+const db = require('../Models');
+const User = db.User;
 const bcrypt = require('bcryptjs'); 
 class UserRepository {
+
     static async GetAll() {    
-       let response = new Response.Response();
+        let response = new Response.Response();
+        let TypeOfResponse = Response.TypeOfResponse;
         try {
-            const users = await UserModel.findAll();
+            const users = await User.findAll();
             response.data = users;
             response.message = "Usuarios obtenidos correctamente";
             response.type_of_response = TypeOfResponse.SUCCESS;
@@ -17,14 +19,15 @@ class UserRepository {
         }
         return response;
     }
-
+    
     static async GetById(id) {
         let response = new Response.Response();
+        let TypeOfResponse = Response.TypeOfResponse;
         try {
-            const user = await UserModel.findByPk(id);
+            const user = await User.findByPk(id);
             if (user) {
                 response.data = user;
-                response.message = "Usuario encontrado";
+                response.message = "Usuario obtenido correctamente";
                 response.type_of_response = TypeOfResponse.SUCCESS;
             } else {
                 response.type_of_response = TypeOfResponse.ERROR;
@@ -38,81 +41,97 @@ class UserRepository {
         return response;
     }
 
-    static async createUser(user) {
+    static async CreateUser(nombre, apellido, email, telefono, password, roleId) {
         let response = new Response.Response();
         let TypeOfResponse = Response.TypeOfResponse;
-        const { nombre, apellido, correo, telefono, contraseña, roleId } = user;
         try {
-            // Aquí podrías agregar validaciones adicionales al usuario si es necesario
-            if (!nombre || !apellido || !correo || !contraseña || !telefono || !roleId) {
-              response.type_of_response = TypeOfResponse.ERROR;
-              response.message = "Faltan campos obligatorios";
-              return response;
-            }
-            
-            let saltRounds = 10;        
-            let passwordHash = bcrypt.hashSync(contraseña, saltRounds);
-
-            if (!passwordHash) {
-              response.type_of_response = TypeOfResponse.ERROR;
-              response.message = "Error al encriptar la contraseña";
-              return response;
-            }            
-            // Crear el usuario utilizando el modelo
-            const userMapped = {
-              Name: nombre.trim(),
-              LastName: apellido.trim(),
-              Email: correo.trim(),
-              Phone: telefono.replace(/\s+/g, ''),
-              Password: passwordHash,
-              CreatedAt: new Date(),
-              RoleId: parseInt(roleId, 10),
+            // Verificar si el correo ya está registrado
+            const existingUser = await User.findOne({ where: { email: email } });
+            if (existingUser) {
+                response.type_of_response = TypeOfResponse.ERROR;
+                response.message = "El correo ya está registrado";
+                return response;
             }
 
-            if (isNaN(userMapped.RoleId)) {
-              response.type_of_response = TypeOfResponse.ERROR;
-              response.message = "RoleId debe ser un número válido";
-              return response;                
-            }
+            // Hashear la contraseña antes de guardarla
+            const hashedPassword = await bcrypt.hash(password, 10);
 
-            const newUser = await UserModel.create(userMapped);
-
-            if (!newUser) {
-              response.type_of_response = TypeOfResponse.ERROR;
-              response.message = "Error al crear el usuario";
-              return response;
-            }
+            const newUser = await User.create({
+                nombre,
+                apellido,
+                email,
+                telefono,
+                password: hashedPassword,
+                roleId,
+                createdAt: new Date(),
+                updatedAt: new Date()                
+            });
             response.data = newUser;
             response.message = "Usuario creado correctamente";
             response.type_of_response = TypeOfResponse.SUCCESS;
         } catch (error) {
-          console.error("Error al crear el usuario:", error);
-          response.type_of_response = TypeOfResponse.ERROR;
-          response.message = "Error al crear el usuario";
+            console.error("Error al crear el usuario:", error);
+            response.type_of_response = TypeOfResponse.ERROR;
+            response.message = "Error al crear el usuario";
         }
         return response;
     }
 
-    static async GetByEmail(email) {
+    static async updateUser(id, nombre, apellido, email, telefono, roleId) {
         let response = new Response.Response();
+        let TypeOfResponse = Response.TypeOfResponse;
+        if((!id) || (!nombre) || (!apellido) || (!email) || (!telefono) || (!roleId)){
+            response.type_of_response = TypeOfResponse.ERROR;
+            response.message = "Los campos nombre, apellido, email, telefono y roleId son obligatorios";
+            return response;
+        }
         try {
-            const user = await UserModel.findByEmail(email);
-            //console.log("dsps de metodo getbyemailrepository", user);
-            if (user) {
-                response.data = user;
-                response.message = "Usuario encontrado";
-                response.type_of_response = TypeOfResponse.SUCCESS;
-            } else {
+            const user = await User.findByPk(id);
+            if (!user) {
                 response.type_of_response = TypeOfResponse.ERROR;
                 response.message = "Usuario no encontrado";
-            }
+                return response;
+            }            
+            // Actualizar los campos si se proporcionan nuevos valores
+            user.nombre = nombre || user.nombre;
+            user.apellido = apellido || user.apellido;
+            user.email = email || user.email;
+            user.telefono = telefono || user.telefono;
+            user.roleId = roleId || user.roleId;
+            user.updatedAt = new Date();                        
+            await user.save();
+
+            response.data = user;
+            response.message = "Usuario actualizado correctamente";
+            response.type_of_response = TypeOfResponse.SUCCESS;
         } catch (error) {
-            console.error("Error al obtener el usuario por email:", error);
+            console.error("Error al actualizar el usuario:", error);
             response.type_of_response = TypeOfResponse.ERROR;
-            response.message = "Error al obtener el usuario por email";
+            response.message = "Error al actualizar el usuario";
         }
         return response;
     }
+
+    static async deleteUser(id) {
+        let response = new Response.Response();
+        let TypeOfResponse = Response.TypeOfResponse;
+        try {
+            const user = await User.findByPk(id);
+            if (!user) {
+                response.type_of_response = TypeOfResponse.ERROR;
+                response.message = "Usuario no encontrado";
+                return response;
+            }
+            await user.destroy();
+            response.message = "Usuario eliminado correctamente";
+            response.type_of_response = TypeOfResponse.SUCCESS;
+        } catch (error) {
+            console.error("Error al eliminar el usuario:", error);
+            response.type_of_response = TypeOfResponse.ERROR;
+            response.message = "Error al eliminar el usuario";
+        }
+        return response;
+    }    
 }
 
 module.exports = UserRepository;

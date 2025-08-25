@@ -1,4 +1,11 @@
-const TypeOfResponse = require('./TypeOfResponse');
+const TypeOfResponse = Object.freeze({
+    SUCCESS: 'success',
+    ERROR: 'error',
+    WARNING: 'warning',
+    INFO: 'info',
+    EXCEPTION: 'exception'
+});
+
 // Clase Response
 class Response {
     constructor(type_of_response = TypeOfResponse.SUCCESS, data = {}, message = '') {
@@ -18,4 +25,4 @@ class Response {
 }
 
 // Exportar la clase y el enum si lo necesitas en otros módulos
-module.exports = { Response};
+module.exports = { Response, TypeOfResponse };

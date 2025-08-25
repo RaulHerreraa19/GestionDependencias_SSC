@@ -3,6 +3,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    await queryInterface.bulkInsert('FuncionDelegacions', [
+      {        
+        nombre: 'Operativas',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        nombre: 'Control',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    ]);
     /**
      * Add seed commands here.
      *
@@ -15,6 +27,8 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
+    await queryInterface.bulkDelete('FuncionDelegacions', null, {});
+
     /**
      * Add commands to revert seed here.
      *
