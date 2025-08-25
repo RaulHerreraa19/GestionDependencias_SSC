@@ -132,6 +132,33 @@ class UserRepository {
         }
         return response;
     }    
+
+    static async GetByEmail(email) {
+      let response = new Response.Response();
+      let TypeOfResponse = Response.TypeOfResponse;
+      
+      try {
+          const user = await User.findOne({
+            where: {
+              email: email
+            }
+          });
+          //console.log("dsps de metodo getbyemailrepository", user);
+          if (user) {
+              response.data = user;
+              response.message = "Usuario encontrado";
+              response.type_of_response = TypeOfResponse.SUCCESS;
+          } else {
+              response.type_of_response = TypeOfResponse.ERROR;
+              response.message = "Usuario no encontrado";
+          }
+      } catch (error) {
+          console.error("Error al obtener el usuario por email:", error);
+          response.type_of_response = TypeOfResponse.ERROR;
+          response.message = "Error al obtener el usuario por email";
+      }
+      return response;
+    }
 }
 
 module.exports = UserRepository;

@@ -10,6 +10,14 @@ export default function inicio(){
     navigate(ROUTES.AUTH_LOGIN, {replace: true});
   }
 
+  function getRoleId(){
+    let roleId = localStorage.getItem('roleId');
+    console.log(roleId)
+
+    if(roleId == 1) return true;
+    else return false;
+  }
+
   return(
     <>
       <div className="w-64 h-screen bg-indigo-300 text-gray-50 fixed p-5 transition-transform">

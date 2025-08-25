@@ -21,7 +21,7 @@ export default function login(){
 
   async function handleLogin(data){
     const response = await useLogin(data);
-    response.valido ? login(response.token) 
+    response.valido ? login(response.token, response.user.roleId) 
                     : Swal.fire({icon: "error", title:"Oops...", text:response.mensaje});
     
   }
