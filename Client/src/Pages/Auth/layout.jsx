@@ -4,7 +4,7 @@ import HeaderAuth from "../../components/auth/header"
 export default function Layout(){
   return(
     <>
-      <HeaderAuth/>
+      <HeaderAuth isAuth={true}/>
       {/* <SectionAuth/> */}
 
       <Outlet/>
