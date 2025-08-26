@@ -39,26 +39,28 @@ export default function estructura(){
   return(
     <>
       <h1 className="text-center text-6xl text-[#669933] mt-5">Estructura Organizacional</h1>
-
-      {isLogged &&
-        <div className="flex items-center justify-end px-10 h-full">
-          <button className="cursor-pointer px-4 py-2 bg-[#669933] rounded-md text-white">Editar Tabla</button>
+      {isLogged ? 
+        <div>
+          <h1>Nueva Tabla aqui</h1>
+        </div>
+        :
+        <div>
+          <nav className="department-nav">
+            <ul className="flex justify-self-start ml-[152px] list-none p-0 gap-6 mt-24 ">
+                {departamentos.map((departamento) => (
+                  <li key={departamento.param}>
+                    <button
+                      onClick={() => getFuncionarios(departamento.param)}
+                      className="inline-block no-underline text-[#52752f] bg-transparent border border-transparent rounded px-3 py-2.5 cursor-pointer hover:text-[#669933] hover:border-gray-300"
+                    >{departamento.nombre}</button>
+                  </li>
+                ))}
+            </ul>
+          </nav>
+          
+          <TablaCargos data={ funcionarios }/>
         </div>
       }
-      <nav className="department-nav">
-        <ul className="flex justify-self-start ml-[152px] list-none p-0 gap-6 mt-24 ">
-            {departamentos.map((departamento) => (
-              <li key={departamento.param}>
-                <button
-                  onClick={() => getFuncionarios(departamento.param)}
-                  className="inline-block no-underline text-[#52752f] bg-transparent border border-transparent rounded px-3 py-2.5 cursor-pointer hover:text-[#669933] hover:border-gray-300"
-                >{departamento.nombre}</button>
-              </li>
-            ))}
-        </ul>
-      </nav>
-      
-      <TablaCargos data={ funcionarios }/>
     </>
   )
 }
