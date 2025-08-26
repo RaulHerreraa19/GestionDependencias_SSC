@@ -21,6 +21,7 @@ router.delete('/users/:id', UserController.deleteUser);
 
 //DELEGATIONS ROUTERS
 router.get('/delegations', DelegationsController.GetAll);
+router.get('/delegationsAll', DelegationsController.GetAllWChilds);
 router.get('/delegations/:id', DelegationsController.GetById);
 router.post('/delegations', DelegationsController.CreateDelegation);
 router.put('/delegations/:id', DelegationsController.UpdateDelegation);

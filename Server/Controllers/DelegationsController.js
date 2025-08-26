@@ -15,6 +15,19 @@ class DelegationsController{
             });
         }
     }
+
+    static async GetAllWChilds(req, res) {
+        try {
+            const response = await DelegationsRepository.GetAllWChilds();            
+            return res.status(200).json(response);
+        } catch (error) {
+            console.error(error.message);
+            return res.status(500).json({
+                message: 'Error en la conexión al servidor',
+            });
+        }
+    }
+
     static async GetById(req, res) {        
         try {
         const id = req.params.id;

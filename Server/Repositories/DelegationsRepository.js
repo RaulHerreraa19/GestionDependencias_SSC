@@ -19,7 +19,41 @@ class DelegationsRepository {
             response.message = "Error al obtener las delegaciones";
         }
         return response;
-    }    
+    }  
+    
+    static async GetAllWChilds(){
+        let response = new Response.Response();
+        let TypeOfResponse = Response.TypeOfResponse;
+        try{
+            const Delegation = await Delegacion.findAll({
+                include: [
+                        {
+                        model: db.Dependencia,
+                        as: 'dependencias', // este alias lo defines en Delegacion.hasMany(...)
+                        include: [
+                            {
+                            model: db.Funcionario,
+                            as: 'Funcionario' // 👈 este alias debe coincidir con el belongsTo de Dependencia
+                            },
+                            {
+                            model: db.TipoDependencia,
+                            as: 'TipoDependencia' // 👈 alias de la relación belongsTo
+                            }
+                        ]
+                    }
+                ]
+            });
+
+            response.data = Delegation;
+            response.message = "Delegaciones y sus hijos obtenidos correctamente";
+            response.type_of_response = TypeOfResponse.SUCCESS;
+        } catch (error) {
+            console.error("Error al obtener las delegaciones y sus hijos:", error);
+            response.type_of_response = TypeOfResponse.ERROR;
+            response.message = "Error al obtener las delegaciones y sus hijos";
+        }
+        return response;
+    }
     
     static async GetById(id) {
         let response = new Response.Response();
