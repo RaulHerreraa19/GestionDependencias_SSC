@@ -96,3 +96,36 @@ export async function getFuncinarios(){
     throw error;
   }
 }
+
+export async function getDelegaciones(){
+  try{
+    const response = await apiClient.get("/delegations");
+
+    return response.data;
+  } catch(error){
+    console.error('Error en obtener Delegaciones', error);
+    throw error;
+  }
+}
+
+export async function getDependencias() {
+  try{
+    const response = await apiClient.get("/dependencies");
+
+    return response.data;
+  } catch(error){
+    console.error('Error en obtener Dependencias', error);
+    throw error;
+  }
+}
+
+export async function getUtilerias() {
+  try{
+    const response = await apiClient.get("/dependencies");
+
+    return response.data;
+  } catch(error){
+    console.error('Error en obtener Dependencias', error);
+    throw error;
+  }
+}

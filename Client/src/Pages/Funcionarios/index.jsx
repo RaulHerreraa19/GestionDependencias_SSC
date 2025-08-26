@@ -16,15 +16,6 @@ const departamentos = [
   { nombre: "CGV", param: "cgv" },
 ];
 
-const funcionariosCGAF = [
-  {Nombre: "Mtra. Érika Mercedes Ulibarri Ireta", Cargo:"Coordinadora General Administrativa y Financiera"},
-  {Nombre: "Dra. Jessica Gabriela Morales Llamas", Cargo: "Tesorera"},   
-  {Nombre: "M.A. Priscilia Juliana Álvarez Gutiérrez", Cargo: "Director General de Recursos Humanos"},
-  {Nombre: "Arq. Luz María Urzúa Escamilla", Cargo: "Director General de Recursos Materiales"},
-  {Nombre: "Mtro. Camilo Alejandro Garcia Morales", Cargo: "Director General de Servicios Universitarios"},
-  {Nombre: "Mtra. Liz Georgette Murillo Zamora", Cargo: "Directora General de Administración Escolar"}
-];
-
 // function getFuncionarios(param){
 //   fetch(`http://localhost:3000/api/funcionarios?param=${encodeURIComponent(param)}`)
 //     .then(response => response.json())
