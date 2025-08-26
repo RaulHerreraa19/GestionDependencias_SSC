@@ -21,9 +21,10 @@ export const ModalProvider = ({children}) => {
 
   return (
     <ModalContext.Provider value={{ isOpen, openModal,closeModal  }}>
+      {children}
       {isOpen && 
         <Modal open={isOpen} onClose={closeModal}>
-          {children}
+          
           <Box
             sx={{
               position: "absolute",

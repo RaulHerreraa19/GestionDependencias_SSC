@@ -5,11 +5,11 @@ import Header from "../../Components/auth/header"
 export default function GestionLayout(){
   return(
     <>
-      {/* <ModalProvider> */}
+      <ModalProvider>
         <Header isAuth={false}/>
 
         <Outlet/>
-      {/* </ModalProvider> */}
+      </ModalProvider>
     </>
   )
 }
