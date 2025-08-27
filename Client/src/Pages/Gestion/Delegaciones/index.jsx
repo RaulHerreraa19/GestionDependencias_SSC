@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react"
 import { Trash,Pencil } from 'lucide-react';
 import TablaAdministracion from "../../../components/tablaAdministracion"
-import { getDelegaciones } from "@/api";
+import { getDelegaciones, editDelegacion } from "@/api";
 import { useModal } from "../../../components/modalContext";
 
 export default function IndexDelegacion(){
   const [delegaciones, setDelegaciones] = useState([]);
-  const {openModal} = useModal();
+  const { openModal, closeModal, setDataForm } = useModal();
 
   const cabeceras = [
     {nombre: 'Nombre'},
-    {nombre: 'FuncionDelegacion'},
+    {nombre: 'Funcionario Delegacion'},
     {nombre: 'CSTM-ID'},
     {nombre: 'Fecha de Creacion'},
     {nombre: 'Ultima Modificacion'},
@@ -21,7 +21,6 @@ export default function IndexDelegacion(){
     const fetchData = async () => {
       try{
         const data = await getDelegaciones();
-
         setDelegaciones(data.data)
       } catch (error) {
         console.error(error)
@@ -30,6 +29,59 @@ export default function IndexDelegacion(){
 
     fetchData();
   }, [])
+
+  function formDataModal(data){
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      editDelegacion(data);
+    }
+
+    return(
+      <div>
+        <h1 className="py-5 text-3xl text-[#669933] text-center">Editar Delegacion</h1>
+        <form className="min-w-150 block items-center gap-2 gap-y-3 w-full" onSubmit={handleSubmit}>
+          {/* Nombre Delegacion */}
+          <div className="py-3 flex items-center">
+            <label htmlFor="nombre">Nombre:</label>
+            <input type="text" 
+              id="nombre" 
+              className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1" 
+              value={data?.nombre ||  ''}
+              onChange={(e) => setDataForm({...data, nombre: e.target.value})}
+            />
+          </div>
+
+          {/* Nombre Delegacion */}
+          <div className="py-3 flex items-center">
+            <label htmlFor="cstm_id">CSTM-ID:</label>
+            <input type="text" 
+              id="cstm_id" 
+              className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1" 
+              value={data?.custom_id ||  ''}
+              onChange={(e) => setDataForm({...data, custom_id: e.target.value})}
+            />
+          </div>
+
+          {/* Funcionario Delegacion */}
+          <div className="py-3 flex items-center">
+            <label htmlFor="funDel">Funcionario Delegacion:</label>
+            <input type="text" 
+              id="funDel" 
+              className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1" 
+              value={data?.nombre ||  ''}
+              onChange={(e) => setDataForm({...data, nombre: e.target.value})}
+            />
+          </div>
+
+          <div className="flex text-center gap-5 justify-center pt-5">
+            <button type="submit" className="px-3 py-1 bg-green-400 text-white max-w-50 rounded-md cursor-pointer">Guardar</button>
+            <button type="button" className="px-3 py-1 bg-red-400 text-white max-w-50 rounded-md cursor-pointer" onClick={closeModal}>Cancelar</button>
+          </div>
+
+        </form>
+      </div>
+    )
+  };
   return(
     <>
       <h1 className="text-center text-6xl text-[#669933] py-5">Delegaciones</h1>
@@ -37,9 +89,11 @@ export default function IndexDelegacion(){
       <section id="tableAdmin" className="w-[80%] m-[20px_auto]">
         <table className="w-full border-collapse">
           <thead>
-            {cabeceras.map((cabecera) => (
-              <th scope='col' className='p-[10px] border border-black' key={cabecera.nombre}>{cabecera.nombre}</th>
-            ))}
+            <tr>
+              {cabeceras.map((cabecera) => (
+                <th scope='col' className='p-[10px] border border-black' key={cabecera.nombre}>{cabecera.nombre}</th>
+              ))}
+            </tr>
           </thead>
           <tbody>
             {delegaciones.map((delegacion, index) => (
@@ -50,21 +104,14 @@ export default function IndexDelegacion(){
                 <td className="p-[10px] border border-black">{new Date(delegacion.createdAt).toLocaleDateString("es-ES")}</td>
                 <td className="p-[10px] border border-black">{new Date(delegacion.updatedAt).toLocaleDateString("es-ES")}</td>
                 <td className='p-[10px] border border-black flex gap-2 justify-center'>
-                  <Trash className='bg-red-300 text-white rounded-md'/>
-                  <Pencil className='bg-yellow-300 text-white rounded-md' onClick={() => handleEdit(funcionario)}/>
+                  <Trash className='bg-red-300 text-white rounded-md cursor-pointer'/>
+                  <Pencil className='bg-yellow-300 text-white rounded-md cursor-pointer' onClick={() => openModal(({ data }) => formDataModal(data), delegacion)}/>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </section>
-
-      <button onClick={() => openModal(
-        <div>Hola desde el modal</div>
-      )}
-      >
-        Abrir Modal
-      </button>
       
       {/* <TablaAdministracion data={delegaciones} cabeceras={cabeceras}/> */}
     </>

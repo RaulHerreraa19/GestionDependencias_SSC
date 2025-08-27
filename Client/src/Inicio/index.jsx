@@ -48,6 +48,9 @@ export default function inicio(){
           
           {isLogged() ?
             <div>
+              <Link to={ROUTES.GESTION_DASHBOARD} className="text-gray-50 no-underline block p-2.5 rounded-md duration-300 hover:bg-indigo-400">
+                Gestion
+              </Link>
               <Link to={ROUTES.DASHBOARD_CATALOGO} className="text-gray-50 no-underline block p-2.5 rounded-md duration-300 hover:bg-indigo-400">
                 Catalogo
               </Link>

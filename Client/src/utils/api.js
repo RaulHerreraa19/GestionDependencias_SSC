@@ -97,6 +97,18 @@ export async function getFuncinarios(){
   }
 }
 
+export async function editFuncionario(funcionario){
+  try{
+    const id = funcionario.id;
+    const response = await apiClient.put(`/funcionarios/${id}`, funcionario);
+
+    return response.data
+  } catch(error){
+    console.error('Error al editar Funcionario')
+    throw error;
+  }
+}
+
 export async function getDelegaciones(){
   try{
     const response = await apiClient.get("/delegations");
@@ -108,6 +120,18 @@ export async function getDelegaciones(){
   }
 }
 
+export async function editDelegacion(delegacion){
+  try{
+    const id = delegacion.id;
+    const response = await apiClient.put(`/delegations/${id}`, delegacion);
+
+    return response.data
+  } catch(error){
+    console.error(error);
+    throw error;
+  }
+}
+
 export async function getDependencias() {
   try{
     const response = await apiClient.get("/dependencies");
@@ -115,6 +139,18 @@ export async function getDependencias() {
     return response.data;
   } catch(error){
     console.error('Error en obtener Dependencias', error);
+    throw error;
+  }
+}
+
+export async function editDependencia(dependencia){
+  try{
+    const id = dependencia.id;
+    const response = await apiClient.put(`/dependencies/${id}`, dependencia);
+
+    return response.data
+  } catch(error){
+    console.error(error);
     throw error;
   }
 }
