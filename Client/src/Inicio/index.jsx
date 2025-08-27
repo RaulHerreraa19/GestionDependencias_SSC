@@ -10,6 +10,20 @@ export default function inicio(){
     navigate(ROUTES.AUTH_LOGIN, {replace: true});
   }
 
+  function isAdmin(){
+    let roleId = localStorage.getItem('roleId');
+
+    if(roleId == 1) return true;
+    else return false;
+  }
+
+  function isLogged(){
+    let roleId = localStorage.getItem('roleId');
+
+    if(roleId) return true;
+    else return false;
+  }
+
   return(
     <>
       <div className="w-64 h-screen bg-indigo-300 text-gray-50 fixed p-5 transition-transform">
@@ -26,11 +40,31 @@ export default function inicio(){
           <Link to={ROUTES.DASHBOARD_UTILERIAS} className="text-gray-50 no-underline block p-2.5 rounded-md duration-300 hover:bg-indigo-400">
             Utilerias
           </Link>
-          <li className="mt-auto mb-20">
-            <button className="text-gray-50 block p-2.5 rounded-md duration-300 hover:bg-indigo-400 w-full cursor-pointer" onClick={handleLogout}>
-              Cerrar Sesion
-            </button>
-          </li>
+          {isAdmin() &&
+            <Link to={ROUTES.AUTH_REGISTER} className="text-gray-50 no-underline block p-2.5 rounded-md duration-300 hover:bg-indigo-400">
+              Crear Nuevo Usuario
+            </Link>
+          }
+          
+          {isLogged() ?
+            <div>
+              <Link to={ROUTES.DASHBOARD_CATALOGO} className="text-gray-50 no-underline block p-2.5 rounded-md duration-300 hover:bg-indigo-400">
+                Catalogo
+              </Link>
+              <li className="mt-auto mb-20">
+                <button className="text-gray-50 block p-2.5 rounded-md duration-300 hover:bg-indigo-400 w-full cursor-pointer" onClick={handleLogout}>
+                  Cerrar Sesion
+                </button>
+              </li>
+            </div>
+            :
+            <Link to={ROUTES.AUTH_LOGIN} className="mt-auto mb-20">
+              <button className="text-gray-50 block p-2.5 rounded-md duration-300 hover:bg-indigo-400 w-full cursor-pointer">
+                Iniciar Sesion
+              </button>
+            </Link>
+          }
+          
         </ul>
 
       </div>

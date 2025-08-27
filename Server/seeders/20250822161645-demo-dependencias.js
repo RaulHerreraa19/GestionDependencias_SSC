@@ -50,9 +50,9 @@ module.exports = {
       {
         nombre: 'Delegación Colima',
         custom_id: 'DEL-001',
-        delegacion_id: 14,
-        funcionario_id: 5,
-        tipodependenciaId: 5,
+        delegacion_id: 1,
+        funcionario_id: 1,
+        tipodependenciaId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
 
@@ -60,9 +60,9 @@ module.exports = {
       {
         nombre: 'Delegación Manzanillo',
         custom_id: 'DEL-002',
-        delegacion_id: 15,
-        funcionario_id: 6,
-        tipodependenciaId: 6,
+        delegacion_id: 2,
+        funcionario_id: 2,
+        tipodependenciaId: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
       }

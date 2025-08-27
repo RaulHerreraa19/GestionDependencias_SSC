@@ -9,15 +9,52 @@ import IndexEstructura from "./Pages/EstructuraOrg/index";
 import IndexUtilerias from "./Pages/Utilerias/index";
 import IndexLogin from "./Pages/Auth/login/index";
 import IndexRegister from "./Pages/Auth/register/index";
-
+import IndexCatalogo from "./Pages/Catalogo/index"
+import LayoutGestion from "./Pages/Gestion/layout"
+import IndexDelegacionGestion from "./Pages/Gestion/Delegaciones/index";
+import IndexDependenciasGestion from "./Pages/Gestion/Dependencias/index"
+import IndexFuncionariosGestion from "./Pages/Gestion/Funcionarios/index"
+import IndexUtileriasGestion from "./Pages/Gestion/Utilerias/index"
+import IndexGestion from "./Pages/Gestion/index";
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute>
-        <Inicio />,
-      </ProtectedRoute>
+      // <ProtectedRoute>
+        <Inicio />
+      // </ProtectedRoute>
     )
+  },
+  {
+    path: "/gestion",
+    element: (
+      <ProtectedRoute>
+        <LayoutGestion/>
+      </ProtectedRoute>
+    ),
+    children:[
+      {
+        index: true,
+        element: <IndexGestion/>
+      },
+      {
+        index: true,
+        path: "delegaciones",
+        element: <IndexDelegacionGestion/>
+      },
+      {
+        path: "dependencias",
+        element: <IndexDependenciasGestion/>
+      },
+      {
+        path: "funcionarios",
+        element: <IndexFuncionariosGestion/>
+      },
+      {
+        path: "utilerias",
+        element: <IndexUtileriasGestion/>
+      }
+    ]
   },
   {
     path: "/auth",
@@ -33,21 +70,25 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <IndexRegister />,
+        element:(
+          <ProtectedRoute>
+            <IndexRegister />
+          </ProtectedRoute>
+        )
       },
     ]
   },
   {
     path: "/dashboard",
     element: (
-      <ProtectedRoute>
+      // <ProtectedRoute>
         <Layout />
-      </ProtectedRoute>
+      // </ProtectedRoute>
     ),
     children: [
       {
         index: true,
-        element: <Default />,
+        element: <IndexFuncionarios />,
       },
       {
         path: "funcionarios",
@@ -60,6 +101,14 @@ const router = createBrowserRouter([
       {
         path: "utilerias",
         element: <IndexUtilerias />,
+      },
+      {
+        path:"catalogo",
+        element:(
+          <ProtectedRoute>
+            <IndexCatalogo />
+          </ProtectedRoute>
+        )
       }
     ]
   },

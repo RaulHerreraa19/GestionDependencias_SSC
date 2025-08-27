@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Dependencia.belongsTo(models.Delegacion, { foreignKey: 'delegacion_id' });
-      Dependencia.belongsTo(models.Funcionario, { foreignKey: 'funcionario_id' });
-      Dependencia.belongsTo(models.TipoDependencia, { foreignKey: 'tipodependenciaId' });
-      
+      Dependencia.belongsTo(models.Delegacion, { foreignKey: 'delegacion_id', as: 'Delegacion' });
+      Dependencia.belongsTo(models.Funcionario, { foreignKey: 'funcionario_id', as: 'Funcionario' });
+      Dependencia.belongsTo(models.TipoDependencia, { foreignKey: 'tipodependenciaId', as: 'TipoDependencia' });
+
     }
   }
   Dependencia.init({

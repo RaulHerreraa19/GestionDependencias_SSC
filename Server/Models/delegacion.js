@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Delegacion.belongsTo(models.FuncionDelegacion, { foreignKey: 'fun_delegacionId' });
-      Delegacion.hasMany(models.Dependencia, { foreignKey: 'delegacion_id' });
+      Delegacion.hasMany(models.Dependencia, { foreignKey: 'delegacion_id', as: 'dependencias' });
     }
   }
 
