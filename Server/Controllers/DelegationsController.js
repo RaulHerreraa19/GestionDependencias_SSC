@@ -6,7 +6,6 @@ class DelegationsController{
     static async GetAll(req, res) {        
         try {
             const response = await DelegationsRepository.GetAll();
-            console.log("Delegaciones obtenidas controller:", response);
             return res.status(200).json(response);
         } catch (error) {
             console.error(error.message);
