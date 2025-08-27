@@ -23,7 +23,7 @@ module.exports = {
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});
-    */
+     */
   },
 
   async down (queryInterface, Sequelize) {
