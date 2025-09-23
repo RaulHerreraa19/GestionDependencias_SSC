@@ -53,7 +53,7 @@ class AuthController {
         type_of_response: 'SUCCESS',
         token: token,
         user: user
-      });
+      }); 
 
       console.log("dpss del token; ", user);
     } catch (error) {
@@ -67,6 +67,7 @@ class AuthController {
 
   static async register(req, res) {    
     const {nombre, apellido, email, telefono, password, roleId} = req.body;
+    console.log("register");
       try {
         const valMail = await UserRepository.GetByEmail(email);
 
