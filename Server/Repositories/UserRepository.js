@@ -41,12 +41,14 @@ class UserRepository {
         return response;
     }
 
-    static async CreateUser(nombre, apellido, email, telefono, password, roleId) {
+    static async CreateUser(user) {
+        const { nombre, apellido, correo, telefono, contraseña, roleId } = user;
         let response = new Response.Response();
         let TypeOfResponse = Response.TypeOfResponse;
         try {
+            console.log("Creando usuario con email:", correo);
             // Verificar si el correo ya está registrado
-            const existingUser = await User.findOne({ where: { email: email } });
+            const existingUser = await User.findOne({ where: { email: correo } });
             if (existingUser) {
                 response.type_of_response = TypeOfResponse.ERROR;
                 response.message = "El correo ya está registrado";
@@ -54,12 +56,12 @@ class UserRepository {
             }
 
             // Hashear la contraseña antes de guardarla
-            const hashedPassword = await bcrypt.hash(password, 10);
+            const hashedPassword = await bcrypt.hash(contraseña, 10);
 
             const newUser = await User.create({
                 nombre,
                 apellido,
-                email,
+                email: correo,
                 telefono,
                 password: hashedPassword,
                 roleId,

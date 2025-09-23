@@ -71,15 +71,14 @@ class AuthController {
       try {
         const valMail = await UserRepository.GetByEmail(email);
 
-        if(valMail.message !== 'Usuario no encontrado'){
+        if(valMail.message == 'Usuario encontrado'){
           return res.status(409).json({
             valido: false,
             mensaje: 'Correo en Uso',
           })
         };
 
-        const response = await UserRepository.CreateUser(nombre, apellido, email, telefono, password, roleId);
-
+        const response = await UserRepository.CreateUser(user);      
         if (response.type_of_response === TypeOfResponse.SUCCESS) {
           return res.status(201).json(response);
         } else {
