@@ -71,9 +71,9 @@ const router = createBrowserRouter([
       {
         path: "register",
         element:(
-          <ProtectedRoute>
+          //<ProtectedRoute>
             <IndexRegister />
-          </ProtectedRoute>
+          //</ProtectedRoute>
         )
       },
     ]
