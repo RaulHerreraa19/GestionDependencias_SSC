@@ -1,27 +1,51 @@
 import { useEffect, useState } from "react"
-import { Trash,Pencil } from 'lucide-react';
+import { Trash, Pencil } from 'lucide-react';
 import TablaAdministracion from "../../../components/tablaAdministracion"
-import { getDelegaciones, editDelegacion } from "@/api";
+import { getDelegaciones, editDelegacion, deleteDelegacion } from "@/api";
 import { useModal } from "../../../components/modalContext";
+import Swal from "sweetalert2";
 
-export default function IndexDelegacion(){
+export default function IndexDelegacion() {
   const [delegaciones, setDelegaciones] = useState([]);
   const { openModal, closeModal, setDataForm } = useModal();
 
   const cabeceras = [
-    {nombre: 'Nombre'},
-    {nombre: 'Funcionario Delegacion'},
-    {nombre: 'CSTM-ID'},
-    {nombre: 'Fecha de Creacion'},
-    {nombre: 'Ultima Modificacion'},
-    {nombre: 'Acciones'},
+    { nombre: 'Nombre' },
+    { nombre: 'Tipo de Delegacion' },
+    { nombre: 'CSTM-ID' },
+    { nombre: 'Fecha de Creacion' },
+    { nombre: 'Ultima Modificacion' },
+    { nombre: 'Acciones' },
   ];
+
+  const handleDelete = async (id) => {
+    try {
+      //confirmación antes de borrar con swal
+      const confirmed = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás deshacer esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, borrar',
+        cancelButtonText: 'Cancelar'
+      });
+
+      if (confirmed.isConfirmed) {
+        await deleteDelegacion(id);
+        setDelegaciones(delegaciones.filter(delegacion => delegacion.id !== id));
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      try{
+      try {
         const data = await getDelegaciones();
         setDelegaciones(data.data)
+        console.log("funcionDelegacion:", data.data);
       } catch (error) {
         console.error(error)
       }
@@ -30,46 +54,46 @@ export default function IndexDelegacion(){
     fetchData();
   }, [])
 
-  function formDataModal(data){
+  function formDataModal(data) {
     const handleSubmit = (e) => {
       e.preventDefault();
       editDelegacion(data);
     }
 
-    return(
+    return (
       <div>
         <h1 className="py-5 text-3xl text-[#669933] text-center">Editar Delegacion</h1>
         <form className="min-w-150 block items-center gap-2 gap-y-3 w-full" onSubmit={handleSubmit}>
           {/* Nombre Delegacion */}
           <div className="py-3 flex items-center">
             <label htmlFor="nombre">Nombre:</label>
-            <input type="text" 
-              id="nombre" 
-              className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1" 
-              value={data?.nombre ||  ''}
-              onChange={(e) => setDataForm({...data, nombre: e.target.value})}
+            <input type="text"
+              id="nombre"
+              className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1"
+              value={data?.nombre || ''}
+              onChange={(e) => setDataForm({ ...data, nombre: e.target.value })}
             />
           </div>
 
           {/* Nombre Delegacion */}
           <div className="py-3 flex items-center">
             <label htmlFor="cstm_id">CSTM-ID:</label>
-            <input type="text" 
-              id="cstm_id" 
-              className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1" 
-              value={data?.custom_id ||  ''}
-              onChange={(e) => setDataForm({...data, custom_id: e.target.value})}
+            <input type="text"
+              id="cstm_id"
+              className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1"
+              value={data?.custom_id || ''}
+              onChange={(e) => setDataForm({ ...data, custom_id: e.target.value })}
             />
           </div>
 
           {/* Funcionario Delegacion */}
           <div className="py-3 flex items-center">
-            <label htmlFor="funDel">Funcionario Delegacion:</label>
-            <input type="text" 
-              id="funDel" 
-              className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1" 
-              value={data?.nombre ||  ''}
-              onChange={(e) => setDataForm({...data, nombre: e.target.value})}
+            <label htmlFor="funDel">Tipo de Delegacion:</label>
+            <input type="text"
+              id="funDel"
+              className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1"
+              value={data?.nombre || ''}
+              onChange={(e) => setDataForm({ ...data, nombre: e.target.value })}
             />
           </div>
 
@@ -82,7 +106,7 @@ export default function IndexDelegacion(){
       </div>
     )
   };
-  return(
+  return (
     <>
       <h1 className="text-center text-6xl text-[#669933] py-5">Delegaciones</h1>
 
@@ -99,20 +123,20 @@ export default function IndexDelegacion(){
             {delegaciones.map((delegacion, index) => (
               <tr key={index} className="odd:bg-[#D9D9D9] even:bg-white">
                 <td className="p-[10px] border border-black">{delegacion.nombre}</td>
-                <td className="p-[10px] border border-black">{delegacion.fun_delegacionId}</td>
+                <td className="p-[10px] border border-black">{delegacion.FuncionDelegacion.nombre}</td>
                 <td className="p-[10px] border border-black">{delegacion.custom_id}</td>
                 <td className="p-[10px] border border-black">{new Date(delegacion.createdAt).toLocaleDateString("es-ES")}</td>
                 <td className="p-[10px] border border-black">{new Date(delegacion.updatedAt).toLocaleDateString("es-ES")}</td>
                 <td className='p-[10px] border border-black flex gap-2 justify-center'>
-                  <Trash className='bg-red-300 text-white rounded-md cursor-pointer'/>
-                  <Pencil className='bg-yellow-300 text-white rounded-md cursor-pointer' onClick={() => openModal(({ data }) => formDataModal(data), delegacion)}/>
+                  <button className='bg-blue-300 text-white rounded-md' onClick={() => openModal(({ data }) => formDataModal(data), delegacion)}><Pencil /> Editar</button>
+                  <button className='bg-yellow-300 text-white rounded-md' onClick={() => handleDelete(delegacion.id)}><Trash />Eliminar</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </section>
-      
+
       {/* <TablaAdministracion data={delegaciones} cabeceras={cabeceras}/> */}
     </>
   )

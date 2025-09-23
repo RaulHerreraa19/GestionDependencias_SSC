@@ -12,9 +12,8 @@ import {fileURLToPath} from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));  
 const app = express();
 const port = 3000;
-import routes from './routes/routes.js';
-
 //const authRoutes = require('./Routes/authroutes');
+const routes = require('./routes/routes');
 
 app.use(cors());
 app.use(express.json());

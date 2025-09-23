@@ -12,17 +12,17 @@ class AuthController {
     const { correo, contraseña } = req.body;
 
     try {
-      const ress = await UserRepository.GetByEmail(correo);
+      const resUser = await UserRepository.GetByEmail(correo);
 
-      let response = ress.data.dataValues;
-
+      let response = resUser.data.dataValues;
+      console.log(response);
       if(response === null || response === undefined){
         return res.status(404).json({
           message: 'Usuario no Encontrado',
           type_of_response: 'ERROR'
         })
       };
-
+      
       const passCompare = response.password;
       
       const user = {
@@ -40,10 +40,12 @@ class AuthController {
         });
       };
 
+      console.log("dpss del compare; ", user);
+
       const token = jwt.sign(
         user,
         process.env.JWT_SECRET,
-        { expiresIn: '1h' } 
+        { expiresIn: '1h' }
       );
 
       return res.status(200).json({
@@ -51,8 +53,9 @@ class AuthController {
         type_of_response: 'SUCCESS',
         token: token,
         user: user
-      });
+      }); 
 
+      console.log("dpss del token; ", user);
     } catch (error) {
       return res.status(500).json({
         message: 'Por Favor revisa bien los datos',
@@ -62,10 +65,11 @@ class AuthController {
     }
   }
 
-  static async register(req, res) {
-    const user = req.body;
+  static async register(req, res) {    
+    const {nombre, apellido, email, telefono, password, roleId} = req.body;
+    console.log("register");
       try {
-        const valMail = await UserRepository.GetByEmail(user.correo);
+        const valMail = await UserRepository.GetByEmail(email);
 
         if(valMail.message == 'Usuario encontrado'){
           return res.status(409).json({
@@ -74,8 +78,7 @@ class AuthController {
           })
         };
 
-        const response = await UserRepository.CreateUser(user);
-
+        const response = await UserRepository.CreateUser(user);      
         if (response.type_of_response === TypeOfResponse.SUCCESS) {
           return res.status(201).json(response);
         } else {
