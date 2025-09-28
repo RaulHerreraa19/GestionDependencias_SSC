@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Trash,Pencil } from 'lucide-react';
 import { useModal } from "../../../components/modalContext";
-import { getFuncinarios, editFuncionario } from "@/api";
+import { getFuncinarios, editFuncionario, handleDeleteApi } from "@/api";
 import TablaAdministracion from "../../../components/tablaAdministracion";
 
 export default function IndexFuncionarios(){
@@ -30,6 +30,14 @@ export default function IndexFuncionarios(){
 
     fetchData();
   }, []);
+
+  function handleDelete(data){
+    const dataType = {
+      ...data,
+      type: 'funcionario'
+    };
+    handleDeleteApi(dataType)
+  }
 
   
 
@@ -143,8 +151,18 @@ export default function IndexFuncionarios(){
                 <td className="p-[10px] border border-black">{new Date(funcionario.createdAt).toLocaleDateString("es-ES")}</td>
                 <td className="p-[10px] border border-black">{new Date(funcionario.updatedAt).toLocaleDateString("es-ES")}</td>
                 <td className='p-[10px] border border-black flex gap-2 justify-center'>
-                  <Trash className='bg-red-300 text-white rounded-md cursor-pointer'/>
-                  <Pencil className='bg-yellow-300 text-white rounded-md cursor-pointer' onClick={() => openModal(({ data }) => formDataModal(data), funcionario)}/>
+                  <button 
+                    className="bg-yellow-300 rounded-md cursor-pointer"
+                    onClick={() => openModal(({ data }) => formDataModal(data), funcionario)}
+                  >
+                    <Pencil className='text-white' />
+                  </button>
+                  <button 
+                    className="bg-red-300 rounded-md cursor-pointer p-1"
+                    onClick={handleDelete(funcionario)}
+                  >
+                    <Trash className='text-white'/>
+                  </button>
                 </td>
               </tr>
             ))}

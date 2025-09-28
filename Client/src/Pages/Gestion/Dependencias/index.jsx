@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Trash,Pencil } from 'lucide-react';
-import { getDependencias, editDependencia } from "@/api";
+import { getDependencias, editDependencia, handleDeleteApi } from "@/api";
 import TablaAdministracion from "../../../components/tablaAdministracion";
 import { useModal } from "../../../components/modalContext";
 export default function IndexDependencias(){
@@ -29,7 +29,16 @@ export default function IndexDependencias(){
     }
 
     fetchData();
-  }, [])
+  }, []);
+
+  function handleDelete(dependencia){
+    const dataType = {
+      ...dependencia,
+      type: 'dependencia',
+    };
+
+    handleDeleteApi(dataType);
+  };
 
   function formDataModal(data){
     const handleSubmit = (e) => {
@@ -118,8 +127,18 @@ export default function IndexDependencias(){
                 <td className="p-[10px] border border-black">{new Date(dependencia.createdAt).toLocaleDateString("es-ES")}</td>
                 <td className="p-[10px] border border-black">{new Date(dependencia.updatedAt).toLocaleDateString("es-ES")}</td>
                 <td className='p-[10px] border border-black flex gap-2 justify-center'>
-                  <Trash className='bg-red-300 text-white rounded-md cursor-pointer'/>
-                  <Pencil className='bg-yellow-300 text-white rounded-md cursor-pointer' onClick={() => openModal(({ data }) => formDataModal(data), dependencia)}/>
+                  <button 
+                    className="bg-yellow-300 rounded-md cursor-pointer p-1" 
+                    onClick={() => openModal(({ data }) => formDataModal(data), dependencia)}
+                  >
+                    <Pencil className='text-white'/>
+                  </button>
+                  <button 
+                    className="bg-red-300 text-white rounded-md cursor-pointer p-1" 
+                    onClick={() => handleDelete(dependencia)}
+                  >
+                    <Trash className='text-white'/>
+                  </button>
                 </td>
               </tr>
             ))}

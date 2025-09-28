@@ -1,12 +1,12 @@
 import {ROUTES} from "../../routes"
 import { Link } from "react-router";
-
+import { Building, Landmark, Users, ToolCase } from 'lucide-react';
 export default function IndexGestion(){
   const router = [
-    { nombre: "Delegaciones", ruta: ROUTES.GESTION_DELEGACIONES},
-    { nombre: "Dependencias", ruta: ROUTES.GESTION_DEPENDENCIAS},
-    { nombre: "Funcionarios", ruta: ROUTES.GESTION_FUNCIONARIOS},
-    { nombre: "Utilerias", ruta: ROUTES.GESTION_UTILERIAS},
+    { nombre: "Delegaciones", ruta: ROUTES.GESTION_DELEGACIONES, icon: <Landmark className="w-30 h-30 p-0"/> },
+    { nombre: "Dependencias", ruta: ROUTES.GESTION_DEPENDENCIAS, icon: <Building className="w-30 h-30 p-0"/>},
+    { nombre: "Funcionarios", ruta: ROUTES.GESTION_FUNCIONARIOS, icon: <Users className="w-30 h-30 p-0"/>},
+    { nombre: "Utilerias", ruta: ROUTES.GESTION_UTILERIAS, icon: <ToolCase className="w-30 h-30 p-0"/>},
   ];
 
   return(
@@ -18,8 +18,11 @@ export default function IndexGestion(){
 
       <div className="px-5 grid grid-cols-4 gap-3">
         {router.map((route) => (
-          <Link to={route.ruta} key={route.nombre} className="min-h-10 bg-gray-100 rounded-md flex items-center justify-center">
-            {route.nombre}
+          <Link to={route.ruta} key={route.nombre} className="min-h-40 bg-gray-100 rounded-md block items-center justify-center text-center p-1">
+            <div className="items-center flex justify-center">
+              {route.icon}
+            </div>
+            <p className="text-lg font-medium">{route.nombre}</p>
           </Link>
         ))} 
       </div>

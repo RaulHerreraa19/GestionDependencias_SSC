@@ -165,3 +165,27 @@ export async function getUtilerias() {
     throw error;
   }
 }
+
+export async function handleDeleteApi(data){
+  const { type, id } = data;
+  let route = '';
+
+  if(type === 'delegacion'){
+    route = `/delegations/${id}`
+  } 
+  else if (type === 'dependencia'){
+    route = `/dependencies/${id}`
+  }
+  else if (type === 'funcionario'){
+    route = `/funcionarios/${id}`
+  }
+
+  try{
+    const response = await apiClient.delete(route);
+
+    return response.data;
+  } catch(error){
+    console.error('Error al Eliminar', error);
+    throw error;
+  }
+}

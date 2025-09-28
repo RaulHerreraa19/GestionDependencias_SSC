@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Trash,Pencil } from 'lucide-react';
 import TablaAdministracion from "../../../components/tablaAdministracion"
-import { getDelegaciones, editDelegacion } from "@/api";
+import { getDelegaciones, editDelegacion, handleDeleteApi } from "@/api";
 import { useModal } from "../../../components/modalContext";
 
 export default function IndexDelegacion(){
@@ -28,7 +28,15 @@ export default function IndexDelegacion(){
     }
 
     fetchData();
-  }, [])
+  }, []);
+  
+  function handleDelete(delegacion){
+    const dataType = {
+      ...delegacion,
+      type: 'delegacion',
+    }
+    handleDeleteApi(dataType);
+  };
 
   function formDataModal(data){
     const handleSubmit = (e) => {
@@ -82,6 +90,7 @@ export default function IndexDelegacion(){
       </div>
     )
   };
+
   return(
     <>
       <h1 className="text-center text-6xl text-[#669933] py-5">Delegaciones</h1>
@@ -104,8 +113,19 @@ export default function IndexDelegacion(){
                 <td className="p-[10px] border border-black">{new Date(delegacion.createdAt).toLocaleDateString("es-ES")}</td>
                 <td className="p-[10px] border border-black">{new Date(delegacion.updatedAt).toLocaleDateString("es-ES")}</td>
                 <td className='p-[10px] border border-black flex gap-2 justify-center'>
-                  <Trash className='bg-red-300 text-white rounded-md cursor-pointer'/>
-                  <Pencil className='bg-yellow-300 text-white rounded-md cursor-pointer' onClick={() => openModal(({ data }) => formDataModal(data), delegacion)}/>
+                  <button
+                    className="p-1 bg-yellow-300 rounded-md cursor-pointer"
+                    onClick={() => openModal(({ data }) => formDataModal(data), delegacion)}
+                  >
+                    <Pencil className='text-white'/>
+                  </button>
+                  <button 
+                    className="p-1 bg-red-300 rounded-md cursor-pointer"
+                    onClick={() => handleDelete(delegacion)}
+                  >
+                    <Trash className='text-white'/>
+                  </button>
+                  
                 </td>
               </tr>
             ))}
