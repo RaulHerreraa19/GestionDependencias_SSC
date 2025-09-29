@@ -39,12 +39,6 @@ export default function estructura(){
     <>
       <h1 className="text-center text-6xl text-[#669933] mt-5 mb-19">Utilerias</h1>
 
-      {isLogged &&
-        <div className="flex items-center justify-end px-10 h-full">
-          <button className="cursor-pointer px-4 py-2 bg-[#669933] rounded-md text-white">Editar Tabla</button>
-        </div>
-      }
-
       {/* <nav className="department-nav">
         <ul className="flex justify-self-start ml-[152px] list-none p-0 gap-6 mt-24 ">
             {departamentos.map((departamento) => (
