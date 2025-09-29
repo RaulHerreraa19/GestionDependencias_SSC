@@ -8,7 +8,10 @@ export const ROUTES = {
   DASHBOARD_CATALOGO: '/dashboard/catalogo',
   GESTION_DASHBOARD: '/gestion',
   GESTION_DELEGACIONES: '/gestion/delegaciones',
+  CREATE_DELEGACION: '/gestion/delegaciones/create',
   GESTION_DEPENDENCIAS: '/gestion/dependencias',
+  CREATE_DEPENDENCIA: '/gestion/dependencias/create',
   GESTION_FUNCIONARIOS: '/gestion/funcionarios',
+  CREATE_FUNCIONARIO: '/gestion/funcionarios/create',
   GESTION_UTILERIAS: '/gestion/utilerias',
 }

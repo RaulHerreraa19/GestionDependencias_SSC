@@ -12,8 +12,11 @@ import IndexRegister from "./Pages/Auth/register/index";
 import IndexCatalogo from "./Pages/Catalogo/index"
 import LayoutGestion from "./Pages/Gestion/layout"
 import IndexDelegacionGestion from "./Pages/Gestion/Delegaciones/index";
+import CreateDelegacion from "./Pages/Gestion/Delegaciones/Create";
 import IndexDependenciasGestion from "./Pages/Gestion/Dependencias/index"
+import CreateDependencia from "./Pages/Gestion/Dependencias/Create";
 import IndexFuncionariosGestion from "./Pages/Gestion/Funcionarios/index"
+import CreateFuncionario from "./Pages/Gestion/Funcionarios/Create";
 import IndexUtileriasGestion from "./Pages/Gestion/Utilerias/index"
 import IndexGestion from "./Pages/Gestion/index";
 const router = createBrowserRouter([
@@ -38,17 +41,28 @@ const router = createBrowserRouter([
         element: <IndexGestion/>
       },
       {
-        index: true,
         path: "delegaciones",
-        element: <IndexDelegacionGestion/>
+        element: <IndexDelegacionGestion/>,
+      },
+      {
+        path: "delegaciones/create",
+        element: <CreateDelegacion/>,
       },
       {
         path: "dependencias",
         element: <IndexDependenciasGestion/>
       },
       {
+        path: "dependencias/create",
+        element: <CreateDependencia/>
+      },
+      {
         path: "funcionarios",
         element: <IndexFuncionariosGestion/>
+      },
+      {
+        path: "funcionarios/create",
+        element: <CreateFuncionario/>
       },
       {
         path: "utilerias",

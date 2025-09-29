@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react"
-import { Trash,Pencil } from 'lucide-react';
+import { Trash,Pencil, Plus } from 'lucide-react';
 import { getDependencias, editDependencia, handleDeleteApi } from "@/api";
 import TablaAdministracion from "../../../components/tablaAdministracion";
 import { useModal } from "../../../components/modalContext";
+import { useNavigate } from "react-router";
+import { ROUTES } from "../../../routes";
+import Swal from "sweetalert2";
+
 export default function IndexDependencias(){
   const [dependencias, setDependencias] = useState([]);
   const { openModal, closeModal, setDataForm } = useModal();
+  const navigate = useNavigate();
 
   const cabeceras = [
     {nombre: 'Nombre'},
@@ -31,13 +36,19 @@ export default function IndexDependencias(){
     fetchData();
   }, []);
 
-  function handleDelete(dependencia){
+  async function handleDelete(dependencia){
     const dataType = {
       ...dependencia,
       type: 'dependencia',
     };
 
-    handleDeleteApi(dataType);
+    const response = await handleDeleteApi(dataType);
+
+    if(response.valido){
+      Swal.fire({icon:'success', text: response.mensaje})
+    } else {
+      Swal.fire({icon:'error', text: response.mensaje})
+    }
   };
 
   function formDataModal(data){
@@ -105,7 +116,16 @@ export default function IndexDependencias(){
   }
   return(
     <>
-      <h1 className="text-center text-6xl text-[#669933] py-5">Dependencias</h1>
+      <div className="flex items-center justify-center">
+        <h1 className="text-center text-6xl text-[#669933] py-5">Dependencias</h1>
+        <button 
+          className="py-1 px-3 bg-[#669933] rounded-md cursor-pointer text-white ml-10 mt-2 flex items-center justify-center gap-2"
+          onClick={() => navigate(ROUTES.CREATE_DEPENDENCIA)}
+        >
+          <Plus className="w-4 h-4"/>
+          Crear dependencia
+        </button>
+      </div>
 
       <section id="tableAdmin" className="w-[80%] m-[20px_auto]">
         <table className="w-full border-collapse">

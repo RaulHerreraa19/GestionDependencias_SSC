@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react"
-import { Trash,Pencil } from 'lucide-react';
+import { Trash,Pencil,Plus } from 'lucide-react';
 import TablaAdministracion from "../../../components/tablaAdministracion"
 import { getDelegaciones, editDelegacion, handleDeleteApi } from "@/api";
 import { useModal } from "../../../components/modalContext";
+import { useNavigate } from "react-router";
+import { ROUTES } from "../../../routes";
 
 export default function IndexDelegacion(){
   const [delegaciones, setDelegaciones] = useState([]);
   const { openModal, closeModal, setDataForm } = useModal();
+  const navigate = useNavigate();
 
   const cabeceras = [
     {nombre: 'Nombre'},
@@ -30,12 +33,22 @@ export default function IndexDelegacion(){
     fetchData();
   }, []);
   
-  function handleDelete(delegacion){
+  async function handleDelete(delegacion){
     const dataType = {
       ...delegacion,
       type: 'delegacion',
     }
-    handleDeleteApi(dataType);
+    const response = await handleDeleteApi(dataType);
+
+    if(response.valido){
+      Swal.fire({icon:'success', text: response.mensaje})
+    } else {
+      Swal.fire({icon:'error', text: response.mensaje})
+    }
+  };
+
+  function goToCreateDelegacion(){
+    navigate(ROUTES.CREATE_DELEGACION);
   };
 
   function formDataModal(data){
@@ -93,7 +106,16 @@ export default function IndexDelegacion(){
 
   return(
     <>
-      <h1 className="text-center text-6xl text-[#669933] py-5">Delegaciones</h1>
+      <div className="flex items-center justify-center">
+        <h1 className="text-center text-6xl text-[#669933] py-5">Delegaciones</h1>
+        <button 
+          className="py-1 px-3 bg-[#669933] rounded-md cursor-pointer text-white ml-10 mt-2 flex items-center justify-center gap-2"
+          onClick={() => navigate(ROUTES.CREATE_DELEGACION)}
+        >
+          <Plus className="w-4 h-4"/>
+          Crear delegacion
+        </button>
+      </div>
 
       <section id="tableAdmin" className="w-[80%] m-[20px_auto]">
         <table className="w-full border-collapse">

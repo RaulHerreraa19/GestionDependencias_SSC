@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { Trash,Pencil } from 'lucide-react';
+import { Trash,Pencil, Plus } from 'lucide-react';
 import { useModal } from "../../../components/modalContext";
 import { getFuncinarios, editFuncionario, handleDeleteApi } from "@/api";
 import TablaAdministracion from "../../../components/tablaAdministracion";
+import { useNavigate } from "react-router";
+import { ROUTES } from "../../../routes";
+import Swal from "sweetalert2";
 
 export default function IndexFuncionarios(){
   const [funcionarios, setFuncionarios] = useState([]);
   const {openModal, closeModal, setDataForm} = useModal();
+  const navigate = useNavigate();
 
   const cabeceras = [
     {nombre: 'Nombre'},
@@ -31,12 +35,18 @@ export default function IndexFuncionarios(){
     fetchData();
   }, []);
 
-  function handleDelete(data){
+  async function handleDelete(data){
     const dataType = {
       ...data,
       type: 'funcionario'
     };
-    handleDeleteApi(dataType)
+    const response = await handleDeleteApi(dataType)
+    
+    if(response.valido){
+      Swal.fire({icon:'success', text: response.mensaje})
+    } else {
+      Swal.fire({icon:'error', text: response.mensaje})
+    }
   }
 
   
@@ -130,7 +140,16 @@ export default function IndexFuncionarios(){
 
   return(
     <>
-      <h1 className="text-center text-6xl text-[#669933] py-5">Funcionarios</h1>
+      <div className="flex items-center justify-center">
+        <h1 className="text-center text-6xl text-[#669933] py-5">Funcionarios</h1>
+        <button 
+          className="py-1 px-3 bg-[#669933] rounded-md cursor-pointer text-white ml-10 mt-2 flex items-center justify-center gap-2"
+          onClick={() => navigate(ROUTES.CREATE_FUNCIONARIO)}
+        >
+          <Plus className="w-4 h-4"/>
+          Crear funcionario
+        </button>
+      </div>
 
       <section id="tableAdmin" className="w-[80%] m-[20px_auto]">
         <table className="w-full border-collapse">
