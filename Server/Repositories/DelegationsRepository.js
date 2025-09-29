@@ -47,9 +47,13 @@ class DelegationsRepository {
                             as: 'TipoDependencia' // 👈 alias de la relación belongsTo
                             }
                         ]
-                    }
-                ]
-            });
+                        },
+                        {
+                            model: db.FuncionDelegacion,
+                            as: 'FuncionDelegacion'
+                        }                    
+                    ]                    
+                });
 
             response.data = Delegation;
             response.message = "Delegaciones y sus hijos obtenidos correctamente";
