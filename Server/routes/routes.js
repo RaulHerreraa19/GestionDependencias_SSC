@@ -8,67 +8,72 @@ const FuncionDelegacionController = require('../Controllers/FuncionDelegacionCon
 const DependenciasController = require('../Controllers/DependenciasController');
 const tipoDependenciaController = require('../Controllers/TipoDelegacionesController');
 const RolesController = require('../Controllers/userRolesController');
-const loginMiddleware = require('../Middlewares/VerifyToken');
+const verifyToken = require('../Middlewares/VerifyToken');
 
 //USERS ROUTERS
-router.get('/users', UserController.GetAll);
-router.get('/users/:id', UserController.GetById);   
-router.post('/users/Create', UserController.CreateUser);
-router.put('/users/:id', UserController.updateUser);
-router.delete('/users/:id', UserController.deleteUser);
+router.get('/users', verifyToken, UserController.GetAll);
+router.get('/users/:id', verifyToken, UserController.GetById);
+router.post('/users/create', verifyToken, UserController.CreateUser);
+router.post('/users/update', verifyToken, UserController.updateUser);
+router.post('/users/delete', verifyToken, UserController.deleteUser);
 
 
 
 //DELEGATIONS ROUTERS
-router.get('/delegations', DelegationsController.GetAll);
-router.get('/delegationsAll', DelegationsController.GetAllWChilds);
-router.get('/delegations/:id', DelegationsController.GetById);
-router.post('/delegations', DelegationsController.CreateDelegation);
-router.put('/delegations/:id', DelegationsController.UpdateDelegation);
-router.delete('/delegations/:id', DelegationsController.DeleteDelegation);
+router.get('/delegations', verifyToken, DelegationsController.GetAll);
+router.get('/delegationsAll', verifyToken, DelegationsController.GetAllWChilds);
+router.get('/delegations/:id', verifyToken, DelegationsController.GetById);
+router.post('/delegations/create', verifyToken, DelegationsController.CreateDelegation);
+router.post('/delegations/update', verifyToken, DelegationsController.UpdateDelegation);
+router.post('/delegations/delete', verifyToken, DelegationsController.DeleteDelegation);
 
 
 
 //DEPENDENCIAS ROUTERS
-router.get('/dependencies', DependenciasController.GetAll);
-router.get('/dependencies/:id', DependenciasController.GetById);
-router.post('/dependencies', DependenciasController.CreateDependencia);
-router.put('/dependencies/:id', DependenciasController.UpdateDependencia);
-router.delete('/dependencies/:id', DependenciasController.DeleteDependencia);
+router.get('/dependencies', verifyToken, DependenciasController.GetAll);
+router.get('/dependencies/:id', verifyToken, DependenciasController.GetById);
+router.post('/dependencies/create', verifyToken, DependenciasController.CreateDependencia);
+router.post('/dependencies/update', verifyToken, DependenciasController.UpdateDependencia);
+router.post('/dependencies/delete', verifyToken, DependenciasController.DeleteDependencia);
 
 // FUNCIONARIOS ROUTERS
-router.get('/funcionarios', FuncionariosController.GetAll);
-router.get('/funcionarios/:id', FuncionariosController.GetById);
-router.post('/funcionarios', FuncionariosController.CreateFuncionario);
-router.put('/funcionarios/:id', FuncionariosController.UpdateFuncionario);
-router.delete('/funcionarios/:id', FuncionariosController.DeleteFuncionario);
+router.get('/funcionarios', verifyToken, FuncionariosController.GetAll);
+router.get('/funcionarios/:id', verifyToken, FuncionariosController.GetById);
+router.post('/funcionarios/create', verifyToken, FuncionariosController.CreateFuncionario);
+router.post('/funcionarios/update', verifyToken, FuncionariosController.UpdateFuncionario);
+router.post('/funcionarios/delete', verifyToken, FuncionariosController.DeleteFuncionario);
 
 //AUTH ROUTERS
 router.post('/auth/login', AuthController.login);
 router.post('/auth/register', AuthController.register);
+router.get("/auth/login", (req, res) => {
+  res.redirect("http://localhost:4006/login"); // puerto donde corre el login federado
+});
+
+
 
 //RUTAS CATALOGOS
 //FUNCION DE DELEGACION
-router.get('/funciondelegacion', FuncionDelegacionController.GetAll);
-router.get('/funciondelegacion/:id', FuncionDelegacionController.GetById);
-router.post('/funciondelegacion', FuncionDelegacionController.CreateFuncionDelegacion);
-router.put('/funciondelegacion/:id', FuncionDelegacionController.UpdateFuncionDelegacion);
-router.delete('/funciondelegacion/:id', FuncionDelegacionController.DeleteFuncionDelegacion);
+router.get('/funciondelegacion', verifyToken, FuncionDelegacionController.GetAll);
+router.get('/funciondelegacion/:id', verifyToken, FuncionDelegacionController.GetById);
+router.post('/funciondelegacion/create', verifyToken, FuncionDelegacionController.CreateFuncionDelegacion);
+router.post('/funciondelegacion/update', verifyToken, FuncionDelegacionController.UpdateFuncionDelegacion);
+router.post('/funciondelegacion/delete', verifyToken, FuncionDelegacionController.DeleteFuncionDelegacion);
 
 //TIPO DEPENDENCIA
-router.get('/tipodependencia', tipoDependenciaController.GetAll);
-router.get('/tipodependencia/:id', tipoDependenciaController.GetById);
-router.post('/tipodependencia', tipoDependenciaController.CreateTipoDelegacion);
-router.put('/tipodependencia/:id', tipoDependenciaController.UpdateTipoDelegacion);
-router.delete('/tipodependencia/:id', tipoDependenciaController.DeleteTipoDelegacion);
+router.get('/tipodependencia', verifyToken, tipoDependenciaController.GetAll);
+router.get('/tipodependencia/:id', verifyToken, tipoDependenciaController.GetById);
+router.post('/tipodependencia/create', verifyToken, tipoDependenciaController.CreateTipoDelegacion);
+router.post('/tipodependencia/update', verifyToken, tipoDependenciaController.UpdateTipoDelegacion);
+router.post('/tipodependencia/delete', verifyToken, tipoDependenciaController.DeleteTipoDelegacion);
 
 
 //ROLES USUARIO
-router.get('/roles', RolesController.GetAll);
-router.get('/roles/:id', RolesController.GetById);
-router.post('/roles', RolesController.CreateUserRole);
-router.put('/roles/:id', RolesController.UpdateUserRole);
-router.delete('/roles/:id', RolesController.DeleteUserRole);
+router.get('/roles', verifyToken, RolesController.GetAll);
+router.get('/roles/:id', verifyToken, RolesController.GetById);
+router.post('/roles/create', verifyToken, RolesController.CreateUserRole);
+router.post('/roles/update', verifyToken, RolesController.UpdateUserRole);
+router.post('/roles/delete', verifyToken, RolesController.DeleteUserRole);
 
 
 

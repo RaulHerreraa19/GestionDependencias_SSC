@@ -132,6 +132,17 @@ export async function editDelegacion(delegacion){
   }
 }
 
+export async function deleteDelegacion(id) {
+  try {
+    const response = await apiClient.delete(`/delegations/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar Delegacion', error);
+    throw error;
+  }
+}
+
+
 export async function getDependencias() {
   try{
     const response = await apiClient.get("/dependencies");

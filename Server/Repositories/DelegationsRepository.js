@@ -9,7 +9,14 @@ class DelegationsRepository {
         let response = new Response.Response();
         let TypeOfResponse = Response.TypeOfResponse;
         try {
-            const delegations = await Delegacion.findAll();
+            const delegations = await Delegacion.findAll({
+                include:[
+                    {
+                        model:db.FuncionDelegacion,
+                        as: 'FuncionDelegacion',
+                    }                    
+                ]
+            });
             response.data = delegations;
             response.message = "Delegaciones obtenidas correctamente";
             response.type_of_response = TypeOfResponse.SUCCESS;
