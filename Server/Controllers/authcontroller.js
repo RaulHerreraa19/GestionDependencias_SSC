@@ -53,24 +53,25 @@ class AuthController {
   }
 
   static async register(req, res) {
-    const { nombre, apellido, correo, telefono, password, roleId } = req.body;
+    const { nombre, apellido, correo, telefono, contraseña, roleId } = req.body;
     const user = {
       nombre,
       apellido,
       correo,
       telefono,
-      contraseña: password,
+      contraseña,
       roleId,
     };
     try {
       const valMail = await UserRepository.GetByEmail(correo);
 
-      if (valMail.message == "Usuario encontrado") {
+      if (valMail.TypeOfResponse === TypeOfResponse.SUCCESS) {
         return res.status(409).json({
           valido: false,
           mensaje: "Correo en Uso",
         });
       }
+      console.log("creando usuario: ", user);
       const response = await UserRepository.CreateUser(user);
       if (response.type_of_response === TypeOfResponse.SUCCESS) {
         return res.status(201).json(response);
