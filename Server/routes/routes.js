@@ -78,7 +78,7 @@ router.post(
 //AUTH ROUTERS
 router.post("/auth/login", AuthController.login);
 router.post("/auth/register", AuthController.register);
-router.get("/auth/login", (req, res) => {
+router.get("/auth/loginfederado", (req, res) => {
   res.redirect("http://localhost:4006/login"); // puerto donde corre el login federado
 });
 
