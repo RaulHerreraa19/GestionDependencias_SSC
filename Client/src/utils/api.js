@@ -182,17 +182,17 @@ export async function handleDeleteApi(data){
   let route = '';
 
   if(type === 'delegacion'){
-    route = `/delegations/${id}`
+    route = `/delegations/delete`
   } 
   else if (type === 'dependencia'){
-    route = `/dependencies/${id}`
+    route = `/dependencies/delete`
   }
   else if (type === 'funcionario'){
-    route = `/funcionarios/${id}`
+    route = `/funcionarios/delete`
   }
 
   try{
-    const response = await apiClient.delete(route);
+    const response = await apiClient.delete(route, { data: { id } });
 
     return {valido: true, mensaje: 'Exito al Eliminar'};
   } catch(error){
