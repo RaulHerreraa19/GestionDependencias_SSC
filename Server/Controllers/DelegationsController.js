@@ -62,9 +62,8 @@ class DelegationsController{
     }
 
     static async UpdateDelegation(req, res) {
-        try {
-            const id = req.params.id;
-            const { nombre, descripcion } = req.body;
+        try {            
+            const {id, nombre, descripcion } = req.body;
             const response = await DelegationsRepository.updateDelegation(id, nombre, descripcion);
             console.log("Delegación actualizada controller:", response);
             return res.status(200).json(response);
@@ -76,9 +75,10 @@ class DelegationsController{
         }
     }
 
-    static async DeleteDelegation(req, res) {
+    static async DeleteDelegation(req, res) {        
         try {
-            const id = req.params.id;
+            const { id } = req.body;
+            console.log("ID de delegación a eliminar:", id);
             const response = await DelegationsRepository.deleteDelegation(id);
             console.log("Delegación eliminada controller:", response);
             return res.status(200).json(response);

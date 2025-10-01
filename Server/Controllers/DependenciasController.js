@@ -49,8 +49,7 @@ class DependenciasController{
                     message: 'Faltan datos obligatorios: nombre, custom_id, delegacion_id, funcionario_id y tipodependenciaId',
                 });
             }
-            const response = await DependenciasRepository.CreateDependencia(nombre, custom_id, delegacion_id, funcionario_id, tipodependenciaId);
-            console.log("Dependencia creada controller:", response);
+            const response = await DependenciasRepository.CreateDependencia(nombre, custom_id, delegacion_id, funcionario_id, tipodependenciaId);        
             return res.status(201).json(response);
         } catch (error) {
             console.error(error.message);
@@ -61,9 +60,8 @@ class DependenciasController{
     }
 
     static async UpdateDependencia(req, res) {
-        try {
-            const id = req.params.id;
-            const { nombre, custom_id, delegacion_id, funcionario_id, tipodependenciaId } = req.body;
+        try {           
+            const { id, nombre, custom_id, delegacion_id, funcionario_id, tipodependenciaId } = req.body;
             const response = await DependenciasRepository.updateDependencia(id, nombre, custom_id, delegacion_id, funcionario_id, tipodependenciaId);
             console.log("Dependencia actualizada controller:", response);
             return res.status(200).json(response);
@@ -77,7 +75,7 @@ class DependenciasController{
 
     static async DeleteDependencia(req, res) {
         try {
-            const id = req.params.id;
+            const { id } = req.body;
             const response = await DependenciasRepository.deleteDependencia(id);
             console.log("Dependencia eliminada controller:", response);
             return res.status(200).json(response);

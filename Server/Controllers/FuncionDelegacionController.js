@@ -46,9 +46,8 @@ class FuncionDelegacionController{
         }
     }
     static async UpdateFuncionDelegacion(req, res) {
-        try {
-            const id = req.params.id;
-            const { nombre } = req.body;
+        try {            
+            const { id, nombre } = req.body;
             const response = await FuncionDelegacionRepository.updateTypeDelegation(id, nombre);
             console.log("Función de delegación actualizada controller:", response);
             return res.status(200).json(response);
@@ -61,7 +60,7 @@ class FuncionDelegacionController{
     }
     static async DeleteFuncionDelegacion(req, res) {
         try {
-            const id = req.params.id;
+            const { id } = req.body;
             const response = await FuncionDelegacionRepository.deleteTypeDelegation(id);
             console.log("Función de delegación eliminada controller:", response);
             return res.status(200).json(response);

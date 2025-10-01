@@ -68,7 +68,7 @@ app.post(
   (req, res) => res.send(req.user)
 );
 
-app.get("/logout", (req, res) => {
+app.get("/api/auth/logout", (req, res) => {
   if (!req.user) res.redirect("/");
 
   samlStrategy.logout(req, (err, request) => {
@@ -76,7 +76,7 @@ app.get("/logout", (req, res) => {
   });
 });
 
-app.post("/logout/callback", (req, res) => {
+app.post("/api/auth/logout/callback", (req, res) => {
   req.logout();
   res.redirect("/");
 });
