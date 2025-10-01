@@ -48,8 +48,8 @@ class UserController{
 
     static async updateUser(req, res) {
         try {
-            const id = req.params.id;
-            const { nombre, apellido, email, telefono, roleId } = req.body;
+          
+            const { id, nombre, apellido, email, telefono, roleId } = req.body;
 
             const user = await UserRepository.updateUser(id, nombre, apellido, email, telefono, roleId);
             if (!user) {
@@ -64,9 +64,12 @@ class UserController{
     }
 
     static async deleteUser(req, res) {
-        try {
-            const id = req.params.id;
+        try {            
+            const { id } = req.body;
 
+            if (!id) {
+                return res.status(400).json({ message: 'ID de usuario es obligatorio' });
+            }            
             const deleted = await UserRepository.deleteUser(id);
             if (!deleted) {
                 return res.status(404).json({ message: 'Usuario no encontrado' });

@@ -21,24 +21,16 @@ router.post("/users/update", verifyToken, UserController.updateUser);
 router.post("/users/delete", verifyToken, UserController.deleteUser);
 
 //DELEGATIONS ROUTERS
-router.get("/delegations", verifyToken, DelegationsController.GetAll);
+router.get("/delegations", DelegationsController.GetAll);
 router.get("/delegationsAll", DelegationsController.GetAllWChilds);
 router.get("/delegations/:id", verifyToken, DelegationsController.GetById);
-router.post(
-  "/delegations/create",
-  verifyToken,
-  DelegationsController.CreateDelegation
-);
+router.post("/delegations/create", DelegationsController.CreateDelegation);
 router.post(
   "/delegations/update",
   verifyToken,
   DelegationsController.UpdateDelegation
 );
-router.post(
-  "/delegations/delete",
-  verifyToken,
-  DelegationsController.DeleteDelegation
-);
+router.post("/delegations/delete", DelegationsController.DeleteDelegation);
 
 //DEPENDENCIAS ROUTERS
 router.get("/dependencies", verifyToken, DependenciasController.GetAll);
@@ -107,7 +99,6 @@ router.post(
 );
 router.post(
   "/funciondelegacion/delete",
-  verifyToken,
   FuncionDelegacionController.DeleteFuncionDelegacion
 );
 

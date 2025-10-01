@@ -53,8 +53,7 @@ class FuncionariosController {
 
     static async UpdateFuncionario(req, res) {
         try {
-            const id = req.params.id;
-            const { nombre, apellido, email, telefono } = req.body;
+            const { id, nombre, apellido, email, telefono } = req.body;
             const response = await FuncionariosRepository.updateFuncionario(id, { nombre, apellido, email, telefono });
             console.log("Funcionario actualizado controller:", response);
             return res.status(200).json(response);
@@ -68,7 +67,7 @@ class FuncionariosController {
 
     static async DeleteFuncionario(req, res) {
         try {
-            const id = req.params.id;
+            const {id} = req.body;
             const response = await FuncionariosRepository.deleteFuncionario(id);
             console.log("Funcionario eliminado controller:", response);
             return res.status(200).json(response);

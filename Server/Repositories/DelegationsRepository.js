@@ -152,11 +152,14 @@ class DelegationsRepository {
         }
         return response;
     }            
-    static async deleteDelegation(id) {
+    static async deleteDelegation(id) {        
         let response = new Response.Response();
         let TypeOfResponse = Response.TypeOfResponse;
+        console.log("ID recibido para eliminar:", id);
         try {
+
             const delegation = await Delegacion.findByPk(id);
+            console.log("Delegación encontrada para eliminar:", delegation);
             if (!delegation) {
                 response.type_of_response = TypeOfResponse.ERROR;
                 response.message = "Delegación no encontrada";
