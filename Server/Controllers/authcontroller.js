@@ -35,8 +35,10 @@ class AuthController {
         });
       }
       const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-      session.token = token;
+      req.session.token = token;
+      req.session.user = user;
+      console.log("Sesión iniciada para el usuario:", req.session.user);
+      console.log("Token de sesión:", req.session.token);
       return res.status(200).json({
         message: "Login exitoso",
         type_of_response: "SUCCESS",
@@ -49,6 +51,43 @@ class AuthController {
         error: error,
         type_of_response: "ERROR",
       });
+    }
+  }
+
+  static async loginFederado(req, res) {
+    try {
+      const user = req.user;
+
+      if (!user) {
+        return res.status(401).send("Usuario no autenticado");
+      }
+
+      // Crear JWT con solo la info necesaria
+      const payload = {
+        id: user.id || user.nameID, // depende de cómo venga de SAML
+        email: user.email,
+        nombre: user.displayName || user.cn,
+      };
+
+      const token = jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+
+      // Guardar sesión si quieres mantenerla server-side
+      req.session.token = token;
+      req.session.user = payload;
+
+      console.log(
+        "Sesión iniciada para el usuario federado:",
+        req.session.user
+      );
+      console.log("Token de sesión:", req.session.token);
+
+      // REDIRECCIONAR al frontend con el token
+      res.redirect(`http://localhost:5173/dashboard?token=${token}`);
+    } catch (err) {
+      console.error("Error en login federado:", err);
+      res.status(500).send("Error en autenticación federada");
     }
   }
 
@@ -88,6 +127,20 @@ class AuthController {
         type_of_response: TypeOfResponse.ERROR,
       });
     }
+  }
+  static async logout(req, res) {
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).json({
+          message: "Error al cerrar sesión",
+          type_of_response: "ERROR",
+        });
+      }
+      return res.status(200).json({
+        message: "Sesión cerrada exitosamente",
+        type_of_response: "SUCCESS",
+      });
+    });
   }
 }
 

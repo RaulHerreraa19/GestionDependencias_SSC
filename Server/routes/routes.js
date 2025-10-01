@@ -9,7 +9,10 @@ const DependenciasController = require("../Controllers/DependenciasController");
 const tipoDependenciaController = require("../Controllers/TipoDelegacionesController");
 const RolesController = require("../Controllers/userRolesController");
 const verifyToken = require("../Middlewares/VerifyToken");
-
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+const env = require("dotenv");
+env.config();
 //USERS ROUTERS
 router.get("/users", verifyToken, UserController.GetAll);
 router.get("/users/:id", verifyToken, UserController.GetById);
@@ -18,7 +21,7 @@ router.post("/users/update", verifyToken, UserController.updateUser);
 router.post("/users/delete", verifyToken, UserController.deleteUser);
 
 //DELEGATIONS ROUTERS
-router.get("/delegations", DelegationsController.GetAll);
+router.get("/delegations", verifyToken, DelegationsController.GetAll);
 router.get("/delegationsAll", DelegationsController.GetAllWChilds);
 router.get("/delegations/:id", verifyToken, DelegationsController.GetById);
 router.post(
@@ -39,6 +42,7 @@ router.post(
 
 //DEPENDENCIAS ROUTERS
 router.get("/dependencies", verifyToken, DependenciasController.GetAll);
+router.get("/dependenciesAll", DependenciasController.GetAllWChilds);
 router.get("/dependencies/:id", verifyToken, DependenciasController.GetById);
 router.post(
   "/dependencies/create",
@@ -78,9 +82,6 @@ router.post(
 //AUTH ROUTERS
 router.post("/auth/login", AuthController.login);
 router.post("/auth/register", AuthController.register);
-router.get("/auth/loginfederado", (req, res) => {
-  res.redirect("http://localhost:4006/login"); // puerto donde corre el login federado
-});
 
 //RUTAS CATALOGOS
 //FUNCION DE DELEGACION

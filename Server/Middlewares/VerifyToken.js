@@ -3,16 +3,21 @@ const env = require("dotenv");
 const session = require("express-session");
 
 env.config();
-const secretKey = process.env.SECRET_KEY;
 
 function verifyToken(req, res, next) {
-  const sessionToken = req.session.token;
-  if (sessionToken) {
-    req.user = jwt.decode(sessionToken);
-    return next();
-  } else {
-    return res.status(401).json({ message: "No autorizado" });
+  const { session } = req;
+  console.log("Sesión actual:", session);
+  console.log("Token en sesión:", session ? session.token : null);
+  if (!session.token) {
+    return res.status(401).send("No autorizado");
   }
+  jwt.verify(session.token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).send("No autorizado");
+    }
+    req.user = decoded;
+    next();
+  });
 }
 
 module.exports = verifyToken;

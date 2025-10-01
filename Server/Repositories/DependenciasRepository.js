@@ -19,6 +19,23 @@ class DependenciasRepository {
         }
         return response;
     }
+    static async GetAllWChilds() {
+        let response = new Response.Response();
+        let TypeOfResponse = Response.TypeOfResponse;
+        try {
+            const dependencias = await Dependencias.findAll({
+                include: [{ all: true }]
+            });
+            response.data = dependencias;
+            response.message = "Dependencias con hijos obtenidas correctamente";
+            response.type_of_response = TypeOfResponse.SUCCESS;
+        } catch (error) {
+            console.error("Error al obtener las dependencias con hijos:", error);
+            response.type_of_response = TypeOfResponse.ERROR;
+            response.message = "Error al obtener las dependencias con hijos";
+        }
+        return response;
+    };
     
     static async GetById(id) {
         let response = new Response.Response();
