@@ -113,8 +113,12 @@ export default function IndexDelegacion() {
             <input type="text"
               id="funDel"
               className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1"
-              value={data?.nombre || ''}
-              onChange={(e) => setDataForm({ ...data, nombre: e.target.value })}
+              value={data?.FuncionDelegacion.nombre || ''}
+              onChange={(e) => setDataForm({ ...data, FuncionDelegacion: {
+                    ...data?.FuncionDelegacion,
+                    nombre: e.target.value,
+                  },
+              })}
             />
           </div>
 

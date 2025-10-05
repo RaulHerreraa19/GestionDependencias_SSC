@@ -192,7 +192,7 @@ export async function handleDeleteApi(data){
   }
 
   try{
-    const response = await apiClient.delete(route, { data: { id } });
+    const response = await apiClient.post(route, { id: id });
 
     return {valido: true, mensaje: 'Exito al Eliminar'};
   } catch(error){
