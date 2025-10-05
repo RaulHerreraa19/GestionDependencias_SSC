@@ -33,7 +33,7 @@ passport.deserializeUser((user, done) => done(null, user));
 const samlStrategy = new SamlStrategy(
   {
     callbackUrl: "http://localhost:3000/login/callback",
-    issuer: "http://wayf.ucol.mx", // Identificador de tu aplicación
+    issuer: "http://localhost/20166932",
     entryPoint: "https://wayf.ucol.mx/saml2/idp/SSOService.php", // URL para iniciar sesión
     logoutUrl: "https://wayf.ucol.mx/saml2/idp/SingleLogoutService.php",
     logoutCallbackUrl: "http://localhost:3000/logout/callback",
@@ -47,6 +47,10 @@ const samlStrategy = new SamlStrategy(
   }
 );
 
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
 app.use(
   session({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
@@ -55,10 +59,6 @@ app.use(
   })
 );
 passport.use(samlStrategy);
-
-app.get("/", ensureAuthenticated, (req, res) => {
-  res.send("Authenticated"), console.log("Usuario autenticado:", req.user);
-});
 
 app.get(
   "/login",
@@ -87,10 +87,6 @@ app.post(
     res.redirect("/dashboard");
   }
 );
-
-app.get("/debug-session", (req, res) => {
-  res.json(req.session);
-});
 
 app.get("/dashboard", (req, res) => {
   if (!req.session.user) {
