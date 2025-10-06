@@ -93,6 +93,17 @@ export async function getDepartamentos(nombre){
 
 // Funcionarios
 
+export async function createFuncionario(data){
+  try{
+    const response = apiClient.post("/funcionarios/create", data);
+
+    return {valido: true, mensaje: 'Exito al crear funcionario'};
+  } catch (error){
+    console.error(error);
+    return {valido: false, mensaje: 'Error al crear funcionario'};
+  }
+}
+
 export async function getFuncinarios(){
   try{
     const response = await apiClient.get('/funcionarios');
