@@ -111,12 +111,6 @@ app.get("/logout", (req, res) => {
   });
 });
 
-app.get("/me", (req, res) => {
-  if (!req.session.user)
-    return res.status(401).json({ error: "No autorizado" });
-  res.json(req.session.user);
-});
-
 app.post("/logout/callback", (req, res) => {
   req.logout();
   res.redirect("/");
