@@ -32,23 +32,33 @@ passport.deserializeUser((user, done) => done(null, user));
 
 const samlStrategy = new SamlStrategy(
   {
-    callbackUrl: "https://898c5fcc91cc.ngrok-free.app/login/callback",
+    callbackUrl: "http://localhost:3000/login/callback",
+    issuer: "http://localhost/20166932",
     entryPoint: "https://wayf.ucol.mx/saml2/idp/SSOService.php", // URL para iniciar sesión
     logoutUrl: "https://wayf.ucol.mx/saml2/idp/SingleLogoutService.php",
-    logoutCallbackUrl: "https://898c5fcc91cc.ngrok-free.app/logout/callback",
-    issuer: "https://898c5fcc91cc.ngrok-free.app/saml/metadata", // Identificador de tu aplicación
+    logoutCallbackUrl: "http://localhost:3000/logout/callback",
     decryptionPvk: fs.readFileSync(__dirname + "/cert/key.pem", "utf8"),
-    privateCert: fs.readFileSync(__dirname + "/cert/cert.pem", "utf8"),
-    cert: fs.readFileSync(__dirname + "/cert/idp.crt", "utf8"),
+    cert: fs.readFileSync(__dirname + "/cert/new_idp.crt", "utf8"),
   },
-  function (profile, done) {
-    // Aquí defines qué hacer con los datos del usuario
+  (profile, done) => {
+    const user = Object.assign({}, profile);
+    console.log("Perfil del usuario:", user);
     return done(null, profile);
   }
 );
-passport.use(samlStrategy);
 
-app.get("/", ensureAuthenticated, (req, res) => res.send("Authenticated"));
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.use(
+  session({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized: true,
+    resave: true,
+  })
+);
+passport.use(samlStrategy);
 
 app.get(
   "/login",
@@ -65,10 +75,28 @@ app.post(
     failureRedirect: "/login/fail",
     failureFlash: true,
   }),
-  (req, res) => res.send(req.user)
+  (req, res) => {
+    // Guardamos solo lo que necesitamos en la sesión
+    req.session.user = {
+      nameID: req.user.nameID,
+      displayName: req.user.displayName,
+      email: req.user.email,
+    };
+    console.log("Usuario en sesión:", req.session.user);
+    // Rediriges a tu página principal o dashboard
+    res.redirect("/dashboard");
+  }
 );
 
-app.get("/api/auth/logout", (req, res) => {
+app.get("/dashboard", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login"); // Si no hay sesión, manda a login
+  }
+
+  res.send(`Bienvenido ${req.session.user.displayName}`);
+});
+
+app.get("/logout", (req, res) => {
   if (!req.user) res.redirect("/");
 
   samlStrategy.logout(req, (err, request) => {
@@ -76,7 +104,13 @@ app.get("/api/auth/logout", (req, res) => {
   });
 });
 
-app.post("/api/auth/logout/callback", (req, res) => {
+app.get("/me", (req, res) => {
+  if (!req.session.user)
+    return res.status(401).json({ error: "No autorizado" });
+  res.json(req.session.user);
+});
+
+app.post("/logout/callback", (req, res) => {
   req.logout();
   res.redirect("/");
 });

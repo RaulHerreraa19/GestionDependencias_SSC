@@ -6,7 +6,6 @@ class DelegationsController{
     static async GetAll(req, res) {        
         try {
             const response = await DelegationsRepository.GetAll();
-            console.log("Delegaciones obtenidas controller:", response);
             return res.status(200).json(response);
         } catch (error) {
             console.error(error.message);
@@ -44,17 +43,17 @@ class DelegationsController{
 
     static async CreateDelegation(req, res) {
         try {
-            const { nombre, custom_id, fun_delegacionId } = req.body;            
-            if (!nombre || !custom_id || !fun_delegacionId) {
+            const { nombre, custom_id, typeId } = req.body;            
+            if (!nombre || !custom_id || !typeId) {
                 return res.status(400).json({
-                    message: 'Faltan datos obligatorios: nombre, custom_id y fun_delegacionId',
+                    message: 'Faltan datos obligatorios: nombre, custom_id y typeId',
                 });
             }
-            const response = await DelegationsRepository.CreateDelegation(nombre, custom_id, fun_delegacionId);
+            const response = await DelegationsRepository.CreateDelegation(nombre, custom_id, typeId);
             console.log("Delegación creada controller:", response);
             return res.status(201).json(response);
         } catch (error) {
-            console.error(error.message);
+            console.error(error.message);   ba
             return res.status(500).json({
                 message: 'Error en la conexión al servidor',
             });
@@ -63,8 +62,8 @@ class DelegationsController{
 
     static async UpdateDelegation(req, res) {
         try {            
-            const {id, nombre, descripcion } = req.body;
-            const response = await DelegationsRepository.updateDelegation(id, nombre, descripcion);
+            const {id, nombre, descripcion, typeId } = req.body;
+            const response = await DelegationsRepository.updateDelegation(id, nombre, descripcion, typeId);
             console.log("Delegación actualizada controller:", response);
             return res.status(200).json(response);
         } catch (error) {
