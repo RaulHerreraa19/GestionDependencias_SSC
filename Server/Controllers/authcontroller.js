@@ -46,6 +46,7 @@ class AuthController {
         user: user,
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         message: "Por Favor revisa bien los datos",
         error: error,

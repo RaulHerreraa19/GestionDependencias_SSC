@@ -6,6 +6,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  // withCredentials: true
 });
 
 apiClient.interceptors.request.use((config) => {
@@ -19,7 +20,7 @@ apiClient.interceptors.request.use((config) => {
 });
 
 
-
+// Auth
 export async function useLogin(data){
   try{
     const response = await apiClient.post('/auth/login', data);
@@ -59,8 +60,12 @@ export async function useRegister(data){
 
 
 export function validarFormulario(data){
+  console.log(data)
   for(const [key, value] of Object.entries(data)){
     if(typeof value == 'string' && value.trim() == ''){
+      return {valido: false, mensaje: `El campo ${key} es obligatorio`};
+    }
+    if(typeof value == "number" && (isNaN(value) || value === 0)){
       return {valido: false, mensaje: `El campo ${key} es obligatorio`};
     }
   }
@@ -86,6 +91,8 @@ export async function getDepartamentos(nombre){
   }
 }
 
+// Funcionarios
+
 export async function getFuncinarios(){
   try{
     const response = await apiClient.get('/funcionarios');
@@ -109,6 +116,8 @@ export async function editFuncionario(funcionario){
   }
 }
 
+// Delegaciones
+
 export async function getDelegaciones(){
   try{
     const response = await apiClient.get("/delegations");
@@ -117,6 +126,17 @@ export async function getDelegaciones(){
   } catch(error){
     console.error('Error en obtener Delegaciones', error);
     throw error;
+  }
+}
+
+export async function CreateDelegation(delegacion){
+  try{
+    const response = await apiClient.post('/delegations/create', delegacion);
+
+    return {valido: true, mensaje: 'Exito al crear delegacion'};
+  } catch (error){
+    console.error(error);
+    return {valido: false, mensaje: 'Error al crear delegacion'};
   }
 }
 
@@ -142,6 +162,28 @@ export async function deleteDelegacion(id) {
   }
 }
 
+// Dependencias
+
+export async function createDependencia(dependencia){
+  try{
+    const response = await apiClient.post("/dependencies/create", dependencia);
+
+    return {valido: true, mensaje: 'Exito al crear dependencia'};
+  } catch(error){
+    return {valido: false, mensaje: 'Error al crear dependencia'};
+  }
+}
+
+export async function getUtilsDependencias(){
+  try{
+    const response = await apiClient.get("/utilsDependencias");
+
+    return response.data;
+  } catch(error){
+    console.error('Error en obtener getUtilsDepndencias', error);
+    throw error;
+  }
+}
 
 export async function getDependencias() {
   try{
@@ -165,6 +207,8 @@ export async function editDependencia(dependencia){
     throw error;
   }
 }
+
+// Utilerias
 
 export async function getUtilerias() {
   try{
@@ -197,5 +241,16 @@ export async function handleDeleteApi(data){
     return {valido: true, mensaje: 'Exito al Eliminar'};
   } catch(error){
     return {valido: false, mensaje: error.response.data.message};
+  }
+}
+
+export async function getFuncionDelegaciones(){
+  try{
+    const response = await apiClient.get('/funciondelegacion');
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
