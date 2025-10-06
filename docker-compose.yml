@@ -28,7 +28,9 @@ services:
     depends_on:
       - db
     volumes:
-      - ./Server:/app
+      # - ./Server:/app
+      - ./Server:/app:cached
+      - /app/node_modules
   
   frontend:
     build:

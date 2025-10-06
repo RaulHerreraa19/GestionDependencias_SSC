@@ -86,6 +86,18 @@ class DependenciasController{
             });
         }
     }
+
+    static async getUtilsDep(req, res){
+      try{
+        const response = await DependenciasRepository.getUtilsDep();
+        return res.status(200).json(response);
+      } catch(error){
+        console.error(error.message);
+          return res.status(500).json({
+            message: 'Error en la conexión al servidor',
+          });
+      }
+    }
 }   
 
 

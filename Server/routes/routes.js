@@ -32,6 +32,11 @@ router.post(
 );
 router.post("/delegations/delete", DelegationsController.DeleteDelegation);
 
+//Utils form create dependencia
+router.get("/utilsDependencias",
+  verifyToken,
+  DependenciasController.getUtilsDep);
+
 //DEPENDENCIAS ROUTERS
 router.get("/dependencies", verifyToken, DependenciasController.GetAll);
 router.get("/dependenciesAll", DependenciasController.GetAllWChilds);
