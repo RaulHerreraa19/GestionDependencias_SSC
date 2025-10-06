@@ -1,0 +1,6 @@
+module.exports = {
+  watch: ["."],
+  ext: "js,json",
+  ignore: ["node_modules"],
+  exec: "node app.js"
+};

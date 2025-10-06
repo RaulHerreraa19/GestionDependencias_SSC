@@ -10,9 +10,12 @@ const cookieParser = require("cookie-parser");
 const SamlStrategy = require("passport-saml").Strategy;
 const ensureAuthenticated = require("./Middlewares/ensureAuthenticated");
 
-app.use(cors());
+app.use(cors({
+  // origin: 'http://localhost:5173',
+  // credentials: true,
+}));
 app.use(express.json());
-app.use("/api", routes);
+
 
 app.use(cookieParser());
 app.use(
@@ -20,8 +23,12 @@ app.use(
     secret: "TU_SECRETO",
     resave: false,
     saveUninitialized: true,
+    secure: false,
+    sameSite: "lax",
   })
 );
+
+app.use("/api", routes);
 
 app.use(passport.initialize());
 app.use(passport.session());

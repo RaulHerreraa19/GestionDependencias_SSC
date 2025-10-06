@@ -138,6 +138,37 @@ class DependenciasRepository {
         }
         return response;
     }
+
+    static async getUtilsDep(){
+      let response = new Response.Response();
+      let TypeOfResponse = Response.TypeOfResponse;
+      
+      try{
+        const Delegacion = db.Delegacion;
+        const Funcionario = db.Funcionario;
+        const TipoDependencia = db.TipoDependencia;
+
+        const utils = await Promise.all([
+          Delegacion.findAll(),
+          Funcionario.findAll(),
+          TipoDependencia.findAll()
+        ]);
+
+        response.data = {
+          delegaciones: utils[0],
+          funcionarios: utils[1],
+          tiposDependencia: utils[2]
+        };
+
+        response.type_of_response = TypeOfResponse.SUCCESS;
+        return response;
+      } catch(error){
+        console.error("Error al obtener datos de utilidades:", error);
+        response.type = TypeOfResponse.ERROR;
+        response.message = "Error interno";
+        return response;
+      }
+    }
 }
 
 module.exports = DependenciasRepository;
