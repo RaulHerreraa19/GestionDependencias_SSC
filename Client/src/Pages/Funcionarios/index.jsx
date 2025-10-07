@@ -5,18 +5,6 @@ import { getFuncinarios } from "@/api";
 import { getDelegaciones } from "../../utils/api";
 import { use } from "react";
 
-// const departamentos = [
-//   { nombre: "Rectoría", param: "rectoria" , },
-//   { nombre: "Regulativas", param: "regulativas" },
-//   { nombre: "CGD", param: "cgd" },
-//   { nombre: "CGI", param: "cgi" },
-//   { nombre: "CGECD", param: "cgecd" },
-//   { nombre: "CGCS", param: "cgcs" },
-//   { nombre: "CGTI", param: "cgti" },
-//   { nombre: "CGAF", param: "cgaf" },
-// ];
-
-
 export default function estructura(){
 
   const [delegaciones, setDelegaciones] = useState([]);

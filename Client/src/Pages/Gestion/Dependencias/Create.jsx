@@ -53,7 +53,6 @@ export default function CreateDependencia(){
       const res = await getUtilsDependencias();
       if (mounted && res?.data) {
         setUtils(res.data);
-        console.log(res)
       }
     } catch (error) {
       console.error("Error al obtener utilidades:", error);
