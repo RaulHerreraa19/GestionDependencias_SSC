@@ -62,6 +62,11 @@ class DependenciasController{
     static async UpdateDependencia(req, res) {
         try {           
             const { id, nombre, custom_id, delegacion_id, funcionario_id, tipodependenciaId } = req.body;
+            if (!id || !nombre || !custom_id || !delegacion_id || !funcionario_id || !tipodependenciaId) {
+                return res.status(400).json({
+                    message: 'Faltan datos obligatorios: id, nombre, custom_id, delegacion_id, funcionario_id y tipodependenciaId',
+                });
+            }
             const response = await DependenciasRepository.updateDependencia(id, nombre, custom_id, delegacion_id, funcionario_id, tipodependenciaId);
             console.log("Dependencia actualizada controller:", response);
             return res.status(200).json(response);

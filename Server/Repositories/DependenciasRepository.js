@@ -92,6 +92,8 @@ class DependenciasRepository {
     static async updateDependencia(id, nombre, custom_id, delegacion_id, funcionario_id, tipodependenciaId) {
         let response = new Response.Response();
         let TypeOfResponse = Response.TypeOfResponse;
+        console.log("Actualizando dependencia con ID:", id);
+        console.log("Nuevos datos:", { nombre, custom_id, delegacion_id, funcionario_id, tipodependenciaId });        
         try {
             const dependencia = await Dependencias.findByPk(id);
             if (!dependencia) {

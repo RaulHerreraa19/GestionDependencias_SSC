@@ -1,5 +1,4 @@
-export default function TablaCargos({data}) {
-
+export default function TablaCargos({data}) {  
   return(
     <>
       <section className="w-[80%] m-[20px_auto]">

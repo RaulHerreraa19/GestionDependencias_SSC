@@ -111,11 +111,7 @@ const router = createBrowserRouter([
       {
         path: "estructura",
         element: <IndexEstructura />,
-      },
-      {
-        path: "utilerias",
-        element: <IndexUtilerias />,
-      },
+      },      
       {
         path:"catalogo",
         element:(

@@ -36,10 +36,7 @@ export default function inicio(){
           </Link>
           <Link to={ROUTES.DASHBOARD_ESTRUCTURA_ORGANIZACIONAL} className="text-gray-50 no-underline block p-2.5 rounded-md duration-300 hover:bg-indigo-400">
             Estructura Organizacional
-          </Link>
-          <Link to={ROUTES.DASHBOARD_UTILERIAS} className="text-gray-50 no-underline block p-2.5 rounded-md duration-300 hover:bg-indigo-400">
-            Utilerias
-          </Link>
+          </Link>         
           {isAdmin() &&
             <Link to={ROUTES.AUTH_REGISTER} className="text-gray-50 no-underline block p-2.5 rounded-md duration-300 hover:bg-indigo-400">
               Crear Nuevo Usuario

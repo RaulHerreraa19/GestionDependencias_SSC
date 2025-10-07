@@ -14,7 +14,7 @@ const jwt = require("jsonwebtoken");
 const env = require("dotenv");
 env.config();
 //USERS ROUTERS
-router.get("/users", verifyToken, UserController.GetAll);
+router.get("/users", UserController.GetAll);
 router.get("/users/:id", verifyToken, UserController.GetById);
 router.post("/users/create", verifyToken, UserController.CreateUser);
 router.post("/users/update", verifyToken, UserController.updateUser);
@@ -33,12 +33,14 @@ router.post(
 router.post("/delegations/delete", DelegationsController.DeleteDelegation);
 
 //Utils form create dependencia
-router.get("/utilsDependencias",
+router.get(
+  "/utilsDependencias",
   verifyToken,
-  DependenciasController.getUtilsDep);
+  DependenciasController.getUtilsDep
+);
 
 //DEPENDENCIAS ROUTERS
-router.get("/dependencies", verifyToken, DependenciasController.GetAll);
+router.get("/dependencies", DependenciasController.GetAll);
 router.get("/dependenciesAll", DependenciasController.GetAllWChilds);
 router.get("/dependencies/:id", verifyToken, DependenciasController.GetById);
 router.post(
@@ -48,7 +50,7 @@ router.post(
 );
 router.post(
   "/dependencies/update",
-  verifyToken,
+
   DependenciasController.UpdateDependencia
 );
 router.post(
@@ -58,7 +60,7 @@ router.post(
 );
 
 // FUNCIONARIOS ROUTERS
-router.get("/funcionarios", verifyToken, FuncionariosController.GetAll);
+router.get("/funcionarios", FuncionariosController.GetAll);
 router.get("/funcionarios/:id", verifyToken, FuncionariosController.GetById);
 router.post(
   "/funcionarios/create",
@@ -82,11 +84,7 @@ router.post("/auth/register", AuthController.register);
 
 //RUTAS CATALOGOS
 //FUNCION DE DELEGACION
-router.get(
-  "/funciondelegacion",
-  verifyToken,
-  FuncionDelegacionController.GetAll
-);
+router.get("/funciondelegacion", FuncionDelegacionController.GetAll);
 router.get(
   "/funciondelegacion/:id",
   verifyToken,
