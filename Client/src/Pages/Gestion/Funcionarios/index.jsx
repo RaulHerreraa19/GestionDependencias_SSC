@@ -35,9 +35,9 @@ export default function IndexFuncionarios(){
     fetchData();
   }, []);
 
-  async function handleDelete(data){
+  async function handleDelete(funcionario){
     const dataType = {
-      ...data,
+      ...funcionario,
       type: 'funcionario'
     };
     const response = await handleDeleteApi(dataType)
@@ -47,16 +47,29 @@ export default function IndexFuncionarios(){
     } else {
       Swal.fire({icon:'error', text: response.mensaje})
     }
-  }
+  };
 
   
 
   function formDataModal(data){
     // const [formData, setFormData] = useState(data || {})
 
-    const handleSubmit = (e) => {
+    function handleAlert(response){
+      if(response.type_of_response == "success"){
+        Swal.fire({icon:'success', text: response.message});
+      } else {
+        Swal.fire({icon:'error', text: response.message});
+      }
+    };
+
+    const handleSubmit = async (e) => {
       e.preventDefault();
-      editFuncionario(data);
+      const resp = await editFuncionario(data);
+      handleAlert(resp);
+
+      if(resp.type_of_response == "success"){
+        closeModal();
+      }
     };
 
     return(
@@ -178,7 +191,7 @@ export default function IndexFuncionarios(){
                   </button>
                   <button 
                     className="bg-red-300 rounded-md cursor-pointer p-1"
-                    onClick={handleDelete(funcionario)}
+                    onClick={() => handleDelete(funcionario)}
                   >
                     <Trash className='text-white'/>
                   </button>

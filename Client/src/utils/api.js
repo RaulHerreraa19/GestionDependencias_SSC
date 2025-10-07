@@ -124,7 +124,7 @@ export async function getFuncinarios() {
 export async function editFuncionario(funcionario) {
   try {
     const id = funcionario.id;
-    const response = await apiClient.put(`/funcionarios/${id}`, funcionario);
+    const response = await apiClient.post(`/funcionarios/update`, funcionario);
 
     return response.data;
   } catch (error) {
@@ -160,7 +160,7 @@ export async function CreateDelegation(delegacion) {
 export async function editDelegacion(delegacion) {
   try {
     const id = delegacion.id;
-    const response = await apiClient.put(`/delegations/${id}`, delegacion);
+    const response = await apiClient.post(`/delegations/update`, delegacion);
 
     return response.data;
   } catch (error) {
@@ -216,7 +216,7 @@ export async function getDependencias() {
 export async function editDependencia(dependencia) {
   try {
     const id = dependencia.id;
-    const response = await apiClient.put(`/dependencies/${id}`, dependencia);
+    const response = await apiClient.post(`/dependencies/update`, dependencia);
 
     return response.data;
   } catch (error) {
@@ -255,7 +255,7 @@ export async function handleDeleteApi(data) {
 
     return { valido: true, mensaje: "Exito al Eliminar" };
   } catch (error) {
-    return { valido: false, mensaje: error.response.data.message };
+    return { valido: false, mensaje: error.message };
   }
 }
 

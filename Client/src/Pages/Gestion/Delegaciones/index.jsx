@@ -21,28 +21,6 @@ export default function IndexDelegacion() {
     { nombre: 'Acciones' },
   ];
 
-  // const handleDelete = async (id) => {
-  //   try {
-  //     //confirmación antes de borrar con swal
-  //     const confirmed = await Swal.fire({
-  //       title: '¿Estás seguro?',
-  //       text: "No podrás deshacer esta acción",
-  //       icon: 'warning',
-  //       showCancelButton: true,
-  //       confirmButtonText: 'Sí, borrar',
-  //       cancelButtonText: 'Cancelar'
-  //     });
-
-  //     if (confirmed.isConfirmed) {
-  //       await deleteDelegacion(id);
-  //       setDelegaciones(delegaciones.filter(delegacion => delegacion.id !== id));
-  //     }
-
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -76,9 +54,22 @@ export default function IndexDelegacion() {
   };
 
   function formDataModal(data) {
-    const handleSubmit = (e) => {
+    function handleAlert(response){
+      if(response.type_of_response == "success"){
+        Swal.fire({icon:'success', text: response.message});
+      } else {
+        Swal.fire({icon:'error', text: response.message});
+      }
+    };
+
+    const handleSubmit = async (e) => {
       e.preventDefault();
-      editDelegacion(data);
+      const resp = await editDelegacion(data);
+      handleAlert(resp);
+
+      if(resp.type_of_response == "success"){
+        closeModal()
+      }
     }
 
     return (
