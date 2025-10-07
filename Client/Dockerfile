@@ -4,18 +4,26 @@ WORKDIR /app
 
 ENV NODE_ENV=development
 
-# Copia package.json y opcionalmente lock si lo tienes
 COPY package.json ./
-#COPY pnpm-lock.yaml ./
 
-# Instala dependencias desde cero
 RUN npm install
 
-# Copia el resto del código
 COPY . .
 
-# Expone el puerto de Vite
 EXPOSE 5173
 
-# Inicia el servidor de desarrollo con host accesible desde fuera del contenedor
 CMD ["npm", "run", "dev", "--", "--host"]
+
+# Etapa 1: Build
+# FROM node:20 AS builder
+# WORKDIR /app
+# COPY package*.json ./
+# RUN npm install
+# COPY . .
+# RUN cp ./config.qa.json ./config.json && npm run build
+
+# # Etapa 2: Servir la app (por ejemplo con nginx)
+# FROM nginx:alpine
+# COPY --from=builder /app/dist ./public-html/
+# EXPOSE 80
+# CMD ["nginx", "-g", "daemon off;"]
