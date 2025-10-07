@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Comando para correr la app
-CMD ["npm", "run" ,"dev"]
+CMD ["sh", "-c", "node scripts/migrate-and-seeds.js && npm run dev"]

@@ -8,6 +8,7 @@ import { use } from "react";
 export default function estructura(){
 
   const [delegaciones, setDelegaciones] = useState([]);
+  const [activeDelegacion, setActiveDelegacion] = useState(null); // 🔹
   const [funcionarios, setFuncinarios] = useState([]);
   const { setTitulo, isLogged } = useOutletContext();
 
@@ -40,6 +41,7 @@ export default function estructura(){
   }, [delegaciones]);
 
   const handleShowFuncionarosFromDelegacion = (custom_id) => {
+    setActiveDelegacion(custom_id);
     const delegacion = delegaciones.find(deleg => deleg.custom_id === custom_id);
     if (delegacion) {
       const dependencias = delegacion.dependencias;
@@ -61,7 +63,12 @@ export default function estructura(){
                   <li key={delegacion.custom_id}>
                     <button
                       onClick={() => handleShowFuncionarosFromDelegacion(delegacion.custom_id)}
-                      className=" inline-block no-underline text-[#52752f] bg-transparent border border-transparent rounded px-3 py-2.5 cursor-pointer hover:text-[#669933] hover:border-gray-300"
+                      className={`inline-block no-underline rounded px-3 py-2.5 cursor-pointer border transition-all duration-200 
+                    ${
+                      activeDelegacion === delegacion.custom_id
+                        ? "text-white bg-[#52752f] border-[#52752f]" // 🔹 Activo
+                        : "text-[#52752f] bg-transparent border-transparent hover:text-[#669933] hover:border-gray-300"
+                    }`}
                     >{delegacion.nombre}</button>
                   </li>
                 ))}
