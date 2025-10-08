@@ -69,9 +69,19 @@ export default function IndexFuncionarios(){
 
       if(resp.type_of_response == "success"){
         closeModal();
+        refrescarTabla();
       }
     };
 
+    const refrescarTabla = async () => {
+      try{
+        const data = await getFuncinarios();
+        setFuncionarios(data.data);
+      }
+      catch(error){
+        console.error(error);
+      }
+    };
     return(
       <div>
         <h1 className="py-5 text-3xl text-[#669933] text-center">Editar Funcionarios</h1>

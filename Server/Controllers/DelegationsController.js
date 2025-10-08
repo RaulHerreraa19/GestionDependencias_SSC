@@ -1,94 +1,103 @@
-const Response = require('../Utils/Response');
-const DelegationsRepository = require('../Repositories/DelegationsRepository');
+const Response = require("../Utils/Response");
+const DelegationsRepository = require("../Repositories/DelegationsRepository");
 
-class DelegationsController{
-
-    static async GetAll(req, res) {        
-        try {
-            const response = await DelegationsRepository.GetAll();
-            return res.status(200).json(response);
-        } catch (error) {
-            console.error(error.message);
-            return res.status(500).json({
-                message: 'Error en la conexión al servidor',                
-            });
-        }
+class DelegationsController {
+  static async GetAll(req, res) {
+    try {
+      const response = await DelegationsRepository.GetAll();
+      return res.status(200).json(response);
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).json({
+        message: "Error en la conexión al servidor",
+      });
     }
+  }
 
-    static async GetAllWChilds(req, res) {
-        try {
-            const response = await DelegationsRepository.GetAllWChilds();            
-            return res.status(200).json(response);
-        } catch (error) {
-            console.error(error.message);
-            return res.status(500).json({
-                message: 'Error en la conexión al servidor',
-            });
-        }
+  static async GetAllWChilds(req, res) {
+    try {
+      const response = await DelegationsRepository.GetAllWChilds();
+      return res.status(200).json(response);
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).json({
+        message: "Error en la conexión al servidor",
+      });
     }
+  }
 
-    static async GetById(req, res) {        
-        try {
-        const id = req.params.id;
-        const response = await DelegationsRepository.GetById(id);
-        console.log("Delegación obtenida controller:", response);
-        return res.status(200).json(response);
-        } catch (error) {
-            console.error(error.message);
-            return res.status(500).json({
-                message: 'Error en la conexión al servidor',                
-            });
-        }
+  static async GetById(req, res) {
+    try {
+      const id = req.params.id;
+      const response = await DelegationsRepository.GetById(id);
+      console.log("Delegación obtenida controller:", response);
+      return res.status(200).json(response);
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).json({
+        message: "Error en la conexión al servidor",
+      });
     }
+  }
 
-    static async CreateDelegation(req, res) {
-        try {
-            const { nombre, custom_id, typeId } = req.body;            
-            if (!nombre || !custom_id || !typeId) {
-                return res.status(400).json({
-                    message: 'Faltan datos obligatorios: nombre, custom_id y typeId',
-                });
-            }
-            const response = await DelegationsRepository.CreateDelegation(nombre, custom_id, typeId);
-            console.log("Delegación creada controller:", response);
-            return res.status(201).json(response);
-        } catch (error) {
-            console.error(error.message);   ba
-            return res.status(500).json({
-                message: 'Error en la conexión al servidor',
-            });
-        }
+  static async CreateDelegation(req, res) {
+    try {
+      const { nombre, custom_id, typeId } = req.body;
+      if (!nombre || !custom_id || !typeId) {
+        return res.status(400).json({
+          message: "Faltan datos obligatorios: nombre, custom_id y typeId",
+        });
+      }
+      const response = await DelegationsRepository.CreateDelegation(
+        nombre,
+        custom_id,
+        typeId
+      );
+      console.log("Delegación creada controller:", response);
+      return res.status(201).json(response);
+    } catch (error) {
+      console.error(error.message);
+      ba;
+      return res.status(500).json({
+        message: "Error en la conexión al servidor",
+      });
     }
+  }
 
-    static async UpdateDelegation(req, res) {
-        try {            
-            const {id, nombre, descripcion, typeId } = req.body;
-            const response = await DelegationsRepository.updateDelegation(id, nombre, descripcion, typeId);
-            console.log("Delegación actualizada controller:", response);
-            return res.status(200).json(response);
-        } catch (error) {
-            console.error(error.message);
-            return res.status(500).json({
-                message: 'Error en la conexión al servidor',
-            });
-        }
+  static async UpdateDelegation(req, res) {
+    try {
+      const { id, nombre, custom_id, descripcion, fun_delegacionId } = req.body;
+      const response = await DelegationsRepository.updateDelegation(
+        id,
+        nombre,
+        custom_id,
+        descripcion,
+        fun_delegacionId
+      );
+      console.log("Delegación actualizada controller:", response);
+      return res.status(200).json(response);
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).json({
+        message: "Error en la conexión al servidor",
+      });
     }
+  }
 
-    static async DeleteDelegation(req, res) {        
-        try {
-            const { id } = req.body;
-            console.log("ID de delegación a eliminar:", id);
-            const response = await DelegationsRepository.deleteDelegation(id);
-            console.log("Delegación eliminada controller:", response);
-            return res.status(200).json(response);
-        } catch (error) {
-            console.error(error.message);
-            return res.status(500).json({
-                message: 'Error en la conexión al servidor',
-            });
-        }
+  static async DeleteDelegation(req, res) {
+    try {
+      const { id } = req.body;
+      console.log("ID de delegación a eliminar:", id);
+      const response = await DelegationsRepository.deleteDelegation(id);
+      console.log("Delegación eliminada controller:", response);
+      return res.status(200).json(response);
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).json({
+        message: "Error en la conexión al servidor",
+      });
     }
-
-}   
+  }
+}
 
 module.exports = DelegationsController;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { Trash,Pencil, Plus } from 'lucide-react';
 import { getDependencias, editDependencia, handleDeleteApi, getUtilsDependencias } from "@/api";
 import TablaAdministracion from "../../../components/tablaAdministracion";
@@ -15,14 +15,15 @@ export default function IndexDependencias(){
 
   const cabeceras = [
     {nombre: 'Nombre'},
-    {nombre: 'DelegacionID'},
-    {nombre: 'FuncionarioID'},
-    {nombre: 'TipoDependenciaID'},
+    {nombre: 'Delegacion'},
+    {nombre: 'Funcionario'},
+    {nombre: 'Tipo Dependencia'},
     {nombre: 'CSTM-ID'},
     {nombre: 'Fecha de Creacion'},
     {nombre: 'Ultima Modificacion'},
     {nombre: 'Acciones'},
   ];
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +48,11 @@ export default function IndexDependencias(){
     fetchUtilsDependencia();
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log("dependencias:", dependencias);
+    console.log("utils:", utils);
+  }, [dependencias, utils]);
 
   async function handleDelete(dependencia){
     const dataType = {
@@ -75,10 +81,21 @@ export default function IndexDependencias(){
     const handleSubmit = async (e) => {
       e.preventDefault();
       const resp = await editDependencia(data);
-      handleAlert(resp);
+      handleAlert(resp);      
 
       if(resp.type_of_response == "success"){
-        closeModal()
+        closeModal();
+        refrecarTabla();
+      }
+    };
+
+    const refrecarTabla = async () => {
+      try{
+        const data = await getDependencias();
+        setDependencias(data.data);
+      }
+      catch(error){
+        console.error(error);
       }
     };
 
@@ -181,30 +198,48 @@ export default function IndexDependencias(){
           </thead>
           <tbody>
             {dependencias.map((dependencia, index) => (
-              <tr key={index} className="odd:bg-[#D9D9D9] even:bg-white">
-                <td className="p-[10px] border border-black">{dependencia.nombre}</td>
-                <td className="p-[10px] border border-black">{dependencia.delegacion_id}</td>
-                <td className="p-[10px] border border-black">{dependencia.funcionario_id}</td>
-                <td className="p-[10px] border border-black">{dependencia.tipodependenciaId}</td>
-                <td className="p-[10px] border border-black">{dependencia.custom_id}</td>
-                <td className="p-[10px] border border-black">{new Date(dependencia.createdAt).toLocaleDateString("es-ES")}</td>
-                <td className="p-[10px] border border-black">{new Date(dependencia.updatedAt).toLocaleDateString("es-ES")}</td>
-                <td className='p-[10px] border border-black flex gap-2 justify-center'>
-                  <button 
-                    className="bg-yellow-300 rounded-md cursor-pointer p-1" 
-                    onClick={() => openModal(({ data }) => formDataModal(data, utils), dependencia)}
-                  >
-                    <Pencil className='text-white'/>
-                  </button>
-                  <button 
-                    className="bg-red-300 text-white rounded-md cursor-pointer p-1" 
-                    onClick={() => handleDelete(dependencia)}
-                  >
-                    <Trash className='text-white'/>
-                  </button>
-                </td>
-              </tr>
-            ))}
+  <tr key={index} className="odd:bg-[#D9D9D9] even:bg-white">
+    <td className="p-[10px] border border-black">{dependencia.nombre}</td> 
+              {/* Delegación */}
+              <td className="p-[10px] border border-black">
+                {dependencia.Delegacion?.nombre || '—'}
+              </td>
+
+              {/* Funcionario */}
+              <td className="p-[10px] border border-black">
+                {dependencia.Funcionario?.nombre || '—'}
+              </td>
+
+              {/* Tipo de Dependencia */}
+              <td className="p-[10px] border border-black">
+                {dependencia.TipoDependencia?.nombre || '—'}
+              </td>
+
+              <td className="p-[10px] border border-black">{dependencia.custom_id}</td>
+              <td className="p-[10px] border border-black">
+                {new Date(dependencia.createdAt).toLocaleDateString("es-ES")}
+              </td>
+              <td className="p-[10px] border border-black">
+                {new Date(dependencia.updatedAt).toLocaleDateString("es-ES")}
+              </td>
+
+              {/* Acciones */}
+              <td className='p-[10px] border border-black flex gap-2 justify-center'>
+                <button 
+                  className="bg-yellow-300 rounded-md cursor-pointer p-1" 
+                  onClick={() => openModal(({ data }) => formDataModal(data, utils), dependencia)}
+                >
+                  <Pencil className='text-white'/>
+                </button>
+                <button 
+                  className="bg-red-300 text-white rounded-md cursor-pointer p-1" 
+                  onClick={() => handleDelete(dependencia)}
+                >
+                  <Trash className='text-white'/>
+                </button>
+              </td>
+            </tr>
+          ))}
           </tbody>
         </table>
       </section>

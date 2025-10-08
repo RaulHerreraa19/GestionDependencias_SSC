@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { Trash,Pencil,Plus } from 'lucide-react';
 import TablaAdministracion from "../../../components/tablaAdministracion"
 import { getDelegaciones, editDelegacion, handleDeleteApi, getFuntDel } from "@/api";
@@ -12,21 +12,22 @@ export default function IndexDelegacion() {
   const [funDel, setFunDel] = useState([]);
   const { openModal, closeModal, setDataForm } = useModal();
   const navigate = useNavigate();
+  
 
   const cabeceras = [
-    { nombre: 'Nombre' },
-    { nombre: 'Tipo de Delegacion' },
-    { nombre: 'CSTM-ID' },
-    { nombre: 'Fecha de Creacion' },
-    { nombre: 'Ultima Modificacion' },
-    { nombre: 'Acciones' },
+    {nombre: 'Nombre'},
+    {nombre: 'Tipo de Delegacion'},
+    {nombre: 'CSTM-ID'},
+    {nombre: 'Fecha de Creacion'},
+    {nombre: 'Ultima Modificacion'},
+    {nombre: 'Acciones'},
   ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getDelegaciones();
-        setDelegaciones(data.data)
+        setDelegaciones(data.data)      
       } catch (error) {
         console.error(error)
       }
@@ -43,6 +44,12 @@ export default function IndexDelegacion() {
     fetchData();
   }, []);
   
+  useEffect(() => {
+    console.log("delegaciones:", delegaciones);
+    console.log("funDel:", funDel);
+  }, [delegaciones, funDel]);
+
+
   async function handleDelete(delegacion){
     const dataType = {
       ...delegacion,
@@ -71,15 +78,26 @@ export default function IndexDelegacion() {
     };
 
     const handleSubmit = async (e) => {
-      e.preventDefault();
+      e.preventDefault();            
+    
       const resp = await editDelegacion(data);
-      handleAlert(resp);
-
-      if(resp.type_of_response == "success"){
+      handleAlert(resp);            
+      if(resp.type_of_response == "success"){        
         closeModal()
-      }
+        refrescarTabla();
+      }      
     }
 
+    const refrescarTabla = async () => {
+      try{
+        const data = await getDelegaciones();
+        setDelegaciones(data.data);
+      } catch(error){
+        console.error(error);
+      }
+    }
+    
+        
     return (
       <div>
         <h1 className="py-5 text-3xl text-[#669933] text-center">Editar Delegacion</h1>
@@ -97,12 +115,13 @@ export default function IndexDelegacion() {
 
           {/* Nombre Delegacion */}
           <div className="py-3 flex items-center">
-            <label htmlFor="cstm_id">CSTM-ID:</label>
+            <label htmlFor="custom_id">CSTM-ID:</label>
             <input type="text"
-              id="cstm_id"
+              id="custom_id"
+              name="custom_id"
               className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1"
               value={data?.custom_id || ''}
-              onChange={(e) => setDataForm({ ...data, custom_id: e.target.value })}
+              onChange={(e) => setDataForm({...data, custom_id: e.target.value})}
             />
           </div>
 

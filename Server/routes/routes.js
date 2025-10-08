@@ -25,19 +25,11 @@ router.get("/delegations", DelegationsController.GetAll);
 router.get("/delegationsAll", DelegationsController.GetAllWChilds);
 router.get("/delegations/:id", verifyToken, DelegationsController.GetById);
 router.post("/delegations/create", DelegationsController.CreateDelegation);
-router.post(
-  "/delegations/update",
-  verifyToken,
-  DelegationsController.UpdateDelegation
-);
+router.post("/delegations/update", DelegationsController.UpdateDelegation);
 router.post("/delegations/delete", DelegationsController.DeleteDelegation);
 
 //Utils form create dependencia
-router.get(
-  "/utilsDependencias",
-  verifyToken,
-  DependenciasController.getUtilsDep
-);
+router.get("/utilsDependencias", DependenciasController.getUtilsDep);
 
 //DEPENDENCIAS ROUTERS
 router.get("/dependencies", DependenciasController.GetAll);
@@ -67,11 +59,7 @@ router.post(
   verifyToken,
   FuncionariosController.CreateFuncionario
 );
-router.post(
-  "/funcionarios/update",
-  verifyToken,
-  FuncionariosController.UpdateFuncionario
-);
+router.post("/funcionarios/update", FuncionariosController.UpdateFuncionario);
 router.post(
   "/funcionarios/delete",
   verifyToken,
