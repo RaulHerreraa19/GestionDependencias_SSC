@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Trash,Pencil,Plus } from 'lucide-react';
 import TablaAdministracion from "../../../components/tablaAdministracion"
-import { getDelegaciones, editDelegacion, handleDeleteApi } from "@/api";
+import { getDelegaciones, editDelegacion, handleDeleteApi, getFuntDel } from "@/api";
 import { useModal } from "../../../components/modalContext";
 import { useNavigate } from "react-router";
 import { ROUTES } from "../../../routes";
@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 
 export default function IndexDelegacion() {
   const [delegaciones, setDelegaciones] = useState([]);
+  const [funDel, setFunDel] = useState([]);
   const { openModal, closeModal, setDataForm } = useModal();
   const navigate = useNavigate();
 
@@ -26,12 +27,19 @@ export default function IndexDelegacion() {
       try {
         const data = await getDelegaciones();
         setDelegaciones(data.data)
-        console.log("funcionDelegacion:", data.data);
       } catch (error) {
         console.error(error)
       }
     }
-
+    const fetchFunDel = async () => {
+      try{
+        const resp = await getFuntDel();
+        setFunDel(resp.data);
+      } catch(error){
+        console.error(error)
+      }
+    }
+    fetchFunDel();
     fetchData();
   }, []);
   
@@ -100,17 +108,20 @@ export default function IndexDelegacion() {
 
           {/* Funcionario Delegacion */}
           <div className="py-3 flex items-center">
-            <label htmlFor="funDel">Tipo de Delegacion:</label>
-            <input type="text"
-              id="funDel"
+            <label htmlFor="fun_delegacionId">Tipo de Delegacion:</label>
+            <select 
+              name="fun_delegacionId" 
+              id="fun_delegacionId"
+              value={data.fun_delegacionId || 0}
               className="border border-gray-300 rounded-md py-1 px-2 flex-1 ml-1"
-              value={data?.FuncionDelegacion.nombre || ''}
-              onChange={(e) => setDataForm({ ...data, FuncionDelegacion: {
-                    ...data?.FuncionDelegacion,
-                    nombre: e.target.value,
-                  },
-              })}
-            />
+              onChange={(e) => setDataForm({...data, fun_delegacionId: e.target.value})}
+            >
+              {funDel.map((del) => (
+                <option value={del.id} key={del.id}>
+                  {del.nombre}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="flex text-center gap-5 justify-center pt-5">
@@ -122,7 +133,6 @@ export default function IndexDelegacion() {
       </div>
     )
   };
-
   return(
     <>
       <div className="flex items-center justify-center">
