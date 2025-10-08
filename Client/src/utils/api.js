@@ -146,6 +146,17 @@ export async function getDelegaciones() {
   }
 }
 
+export async function getFuntDel(){
+  try {
+    const response = await apiClient.get("/funciondelegacion");
+
+    return response.data;
+  } catch (error){
+    console.error("Error en obtener Delegaciones", error);
+    throw error;
+  }
+} 
+
 export async function CreateDelegation(delegacion) {
   try {
     const response = await apiClient.post("/delegations/create", delegacion);
