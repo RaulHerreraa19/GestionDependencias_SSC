@@ -123,6 +123,12 @@ class DelegationsRepository {
   }
 
   static async updateDelegation(id, nombre, custom_id, fun_delegacionId) {
+    console.log("Datos recibidos para actualizar:", {
+      id,
+      nombre,
+      custom_id,
+      fun_delegacionId,
+    });
     let response = new Response.Response();
     let TypeOfResponse = Response.TypeOfResponse;
     try {
@@ -137,6 +143,7 @@ class DelegationsRepository {
       const existingDelegation = await Delegacion.findOne({
         where: { nombre: nombre, id: { [db.Sequelize.Op.ne]: id } },
       });
+
       if (existingDelegation) {
         response.type_of_response = TypeOfResponse.ERROR;
         response.message = "El nombre de la delegación ya está en uso";
