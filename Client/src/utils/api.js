@@ -146,16 +146,16 @@ export async function getDelegaciones() {
   }
 }
 
-export async function getFuntDel(){
+export async function getFuntDel() {
   try {
     const response = await apiClient.get("/funciondelegacion");
 
     return response.data;
-  } catch (error){
+  } catch (error) {
     console.error("Error en obtener Delegaciones", error);
     throw error;
   }
-} 
+}
 
 export async function CreateDelegation(delegacion) {
   try {
@@ -170,7 +170,6 @@ export async function CreateDelegation(delegacion) {
 
 export async function editDelegacion(delegacion) {
   try {
-    const id = delegacion.id;
     const response = await apiClient.post(`/delegations/update`, delegacion);
 
     return response.data;
@@ -205,7 +204,7 @@ export async function createDependencia(dependencia) {
 export async function getUtilsDependencias() {
   try {
     const response = await apiClient.get("/utilsDependencias");
-
+    console.log("Utils Dependencias:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error en obtener getUtilsDepndencias", error);
@@ -215,7 +214,7 @@ export async function getUtilsDependencias() {
 
 export async function getDependencias() {
   try {
-    const response = await apiClient.get("/dependencies");
+    const response = await apiClient.get("/dependenciesall");
 
     return response.data;
   } catch (error) {
